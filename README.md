@@ -1,140 +1,131 @@
-👥 PANDUAN ANGGOTA TIM
-Sistem Manajemen Tugas Kelompok (Laravel)
+# 📌 Sistem Manajemen Tugas Kelompok
 
-📌 BACA DARI ATAS KE BAWAH – JANGAN LOMPAT
+Project UAS – Laravel  
+Jumlah Anggota: 6 Orang
 
-🧠 HAL PENTING YANG HARUS DIPAHAMI DULU
+---
 
-Project ini dikerjakan bareng
+## 🎯 Deskripsi Project
 
-Kode TIDAK BOLEH dikerjakan di branch main / develop
+Aplikasi web berbasis Laravel untuk manajemen tugas kelompok dengan fitur:
 
-Setiap orang punya branch sendiri
+-   Manajemen Proyek
+-   Manajemen Tugas
+-   Deadline tugas
+-   Status tugas (To Do, Proses, Selesai)
+-   Komentar antar pengguna
+-   Sistem kerja kolaboratif menggunakan GitHub
 
-Merge hanya dilakukan oleh leader
+---
 
-Kalau ragu → STOP & tanya leader
+## 🧠 Aturan Utama (WAJIB DIBACA)
 
-🧰 PERSIAPAN WAJIB (SEBELUM NGODING)
-1️⃣ Install tools ini
+❌ DILARANG push ke branch `main`  
+❌ DILARANG push ke branch `develop`  
+❌ DILARANG merge Pull Request sendiri
+
+✅ Setiap anggota WAJIB kerja di branch masing-masing  
+✅ Merge hanya dilakukan oleh **Leader**
+
+Jika ragu atau error → **STOP dan hubungi Leader**
+
+---
+
+## 🧰 Tools yang Digunakan
 
 WAJIB:
 
-Git
+-   Git
+-   VS Code
+-   Akun GitHub
 
-VS Code
+OPSIONAL (sesuai tugas):
 
-OPSIONAL (tergantung tugas):
+-   Laragon (untuk backend Laravel)
+-   Node.js & NPM (untuk frontend)
 
-Laragon (kalau backend Laravel)
+---
 
-Node.js (kalau frontend)
+## 👥 Alur Kerja Anggota (STEP BY STEP)
 
-2️⃣ Pastikan kamu SUDAH:
+### 1️⃣ Clone Repository (CUMA SEKALI)
 
-Punya akun GitHub
-
-Sudah di-invite sebagai collaborator
-
-Sudah klik Accept Invite
-
-Kalau belum accept → TIDAK BISA PUSH
-
-📥 LANGKAH 1 — CLONE PROJECT (CUMA SEKALI)
-
-Buka terminal / Git Bash:
-
+```bash
 git clone https://github.com/USERNAME/task-manager-uas.git
 cd task-manager-uas
-
-📌 Ini hanya dilakukan SATU KALI di awal
-
-🌿 LANGKAH 2 — PINDAH KE BRANCH DEVELOP
+2️⃣ Pindah ke Branch Develop
+bash
+Copy code
 git checkout develop
 git pull origin develop
+3️⃣ Buat Branch Sendiri (WAJIB)
+Gunakan format:
 
-📌 Jangan kerja di main
-
-🌱 LANGKAH 3 — BUAT BRANCH SENDIRI (WAJIB)
-
-Nama branch harus sesuai tugas kamu.
-
-git checkout -b feature/nama-fitur
-
+bash
+Copy code
+feature/nama-fitur
 Contoh:
 
+bash
+Copy code
 git checkout -b feature/task-crud
+📌 Branch ini digunakan terus, jangan buat ulang setiap hari
 
-📌 Branch ini dipakai terus, jangan buat ulang setiap hari
+4️⃣ Kerjakan Tugas
+Edit file sesuai bagian masing-masing
 
-💻 LANGKAH 4 — KERJAKAN TUGAS KAMU
+Jangan edit .env
 
-Edit file sesuai tugas
+Jangan menghapus kode anggota lain
 
-Jangan edit file yang bukan bagianmu
-
-Jangan sentuh .env
-
-Jangan hapus kode orang lain
-
-📦 LANGKAH 5 — SIMPAN PERUBAHAN (COMMIT)
-
-Cek dulu:
-
+5️⃣ Commit Perubahan
+bash
+Copy code
 git status
-
-Lalu:
-
 git add .
 git commit -m "Tambah fitur task CRUD"
+Gunakan pesan commit yang jelas.
 
-📌 Pesan commit harus jelas
-
-📤 LANGKAH 6 — PUSH KE GITHUB
+6️⃣ Push ke Branch Sendiri
+bash
+Copy code
 git push origin feature/nama-fitur
+❌ Jangan push ke main atau develop
 
-Contoh:
+7️⃣ Buat Pull Request
+Buka GitHub repository
 
-git push origin feature/task-crud
+Klik Compare & Pull Request
 
-✅ Push HANYA ke branch sendiri
-
-🔁 LANGKAH 7 — BUAT PULL REQUEST
-
-Buka GitHub
-
-Akan muncul tombol Compare & Pull Request
-
-Base branch → develop
+Base branch: develop
 
 Klik Create Pull Request
 
-Selesai
+Tunggu review dari Leader
 
-🚫 JANGAN MERGE SENDIRI
+🚫 Jangan merge sendiri
 
-🛑 ATURAN KERAS (WAJIB DITAATI)
+🔒 Keamanan Branch
+Branch main dan develop dilindungi menggunakan Branch Protection Rules:
 
-❌ Jangan push ke main
-❌ Jangan push ke develop
-❌ Jangan merge PR
-❌ Jangan edit .env
-❌ Jangan panik kalau error
+Anggota tidak bisa push langsung
 
-✅ Kerja di branch sendiri
-✅ Tanya leader kalau bingung
+Anggota tidak bisa merge
 
-🚨 KALAU ADA ERROR / BINGUNG
+Semua perubahan masuk melalui Pull Request
 
-HENTIKAN dulu dan kirim pesan ke leader:
+🧪 Testing
+Project ini menggunakan PHPUnit sebagai framework testing bawaan Laravel.
 
-“Aku error pas push / branch, aku stop dulu.”
+⚠️ Catatan Penting
+File .env TIDAK BOLEH di-push
 
-🧠 RINGKASAN SUPER SINGKAT (HAFALIN)
-git clone
-git checkout develop
-git checkout -b feature/nama
-kerja
-git add .
-git commit -m "pesan"
-git push origin feature/nama
+Konfigurasi database dilakukan masing-masing di lokal
+
+Gunakan .env.example sebagai template
+
+🗣️ Jika Terjadi Error
+Hentikan pekerjaan dan hubungi Leader dengan format:
+
+“Saya error di bagian (sebutkan), saya stop dulu.”
+```
