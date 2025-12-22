@@ -1,126 +1,140 @@
-# 📌 Sistem Manajemen Tugas Kelompok
+👥 PANDUAN ANGGOTA TIM
+Sistem Manajemen Tugas Kelompok (Laravel)
 
-Project UAS – Laravel  
-Kelompok (6 Orang)
+📌 BACA DARI ATAS KE BAWAH – JANGAN LOMPAT
 
-## 📖 Deskripsi
+🧠 HAL PENTING YANG HARUS DIPAHAMI DULU
 
-Sistem Manajemen Tugas Kelompok adalah aplikasi berbasis web yang digunakan untuk mengelola pekerjaan dalam sebuah tim.  
-Aplikasi ini dibangun menggunakan Laravel dan dikembangkan secara kolaboratif menggunakan GitHub.
+Project ini dikerjakan bareng
 
-### Fitur Utama:
+Kode TIDAK BOLEH dikerjakan di branch main / develop
 
--   Autentikasi pengguna (Login & Register)
--   Manajemen Proyek
--   Manajemen Tugas
--   Deadline tugas
--   Status tugas (To Do, In Progress, Done)
--   Komentar pada tugas
+Setiap orang punya branch sendiri
 
----
+Merge hanya dilakukan oleh leader
 
-## 🧑‍🤝‍🧑 Aturan Kerja Tim (WAJIB DIBACA)
+Kalau ragu → STOP & tanya leader
 
--   ❌ DILARANG push langsung ke branch `main`
--   ❌ DILARANG push langsung ke branch `develop`
--   ✅ SETIAP ORANG wajib pakai branch masing-masing
--   ✅ Semua penggabungan kode melalui Pull Request
--   ✅ Jika ada error / conflict → hubungi leader
+🧰 PERSIAPAN WAJIB (SEBELUM NGODING)
+1️⃣ Install tools ini
 
----
+WAJIB:
 
-## 🌿 Struktur Branch
+Git
 
-main → versi final (pengumpulan UAS)
-develop → branch kerja tim
-feature/\* → branch masing-masing anggota
+VS Code
 
-yaml
-Copy code
+OPSIONAL (tergantung tugas):
 
----
+Laragon (kalau backend Laravel)
 
-## 🚀 Panduan Anggota Tim
+Node.js (kalau frontend)
 
-### A. Langkah Awal (Dilakukan Sekali)
+2️⃣ Pastikan kamu SUDAH:
 
-````bash
+Punya akun GitHub
+
+Sudah di-invite sebagai collaborator
+
+Sudah klik Accept Invite
+
+Kalau belum accept → TIDAK BISA PUSH
+
+📥 LANGKAH 1 — CLONE PROJECT (CUMA SEKALI)
+
+Buka terminal / Git Bash:
+
 git clone https://github.com/USERNAME/task-manager-uas.git
 cd task-manager-uas
+
+📌 Ini hanya dilakukan SATU KALI di awal
+
+🌿 LANGKAH 2 — PINDAH KE BRANCH DEVELOP
 git checkout develop
 git pull origin develop
-composer install
-cp .env.example .env
-php artisan key:generate
-php artisan migrate
-php artisan serve
-Buka browser:
 
-cpp
-Copy code
-http://127.0.0.1:8000
-B. Mulai Kerja (Setiap Hari)
-Buat branch sesuai tugas:
+📌 Jangan kerja di main
 
-bash
-Copy code
+🌱 LANGKAH 3 — BUAT BRANCH SENDIRI (WAJIB)
+
+Nama branch harus sesuai tugas kamu.
+
 git checkout -b feature/nama-fitur
-Sebelum ngoding:
 
-bash
-Copy code
-git checkout develop
-git pull origin develop
-git checkout feature/nama-fitur
-git merge develop
-C. Simpan & Kirim Hasil Kerja
-bash
-Copy code
+Contoh:
+
+git checkout -b feature/task-crud
+
+📌 Branch ini dipakai terus, jangan buat ulang setiap hari
+
+💻 LANGKAH 4 — KERJAKAN TUGAS KAMU
+
+Edit file sesuai tugas
+
+Jangan edit file yang bukan bagianmu
+
+Jangan sentuh .env
+
+Jangan hapus kode orang lain
+
+📦 LANGKAH 5 — SIMPAN PERUBAHAN (COMMIT)
+
+Cek dulu:
+
+git status
+
+Lalu:
+
 git add .
-git commit -m "Deskripsi perubahan"
+git commit -m "Tambah fitur task CRUD"
+
+📌 Pesan commit harus jelas
+
+📤 LANGKAH 6 — PUSH KE GITHUB
 git push origin feature/nama-fitur
-D. Pull Request
-Buka GitHub repository
 
-Klik Compare & Pull Request
+Contoh:
 
-Base: develop
+git push origin feature/task-crud
 
-Compare: feature/nama-fitur
+✅ Push HANYA ke branch sendiri
 
-Submit dan tunggu leader merge
+🔁 LANGKAH 7 — BUAT PULL REQUEST
 
-👥 Pembagian Tugas
-Anggota	Tugas
-1	Leader & Integrator
-2	Auth & User
-3	Proyek
-4	Tugas
-5	Komentar
-6	UI / UX
+Buka GitHub
 
-⚠️ Catatan Penting
-Jika terjadi conflict atau error Git:
-👉 JANGAN merge sendiri, hubungi leader
+Akan muncul tombol Compare & Pull Request
 
-yaml
-Copy code
+Base branch → develop
 
----
+Klik Create Pull Request
 
-### 4️⃣ Ganti `USERNAME`
-Ubah bagian ini:
-https://github.com/USERNAME/task-manager-uas.git
+Selesai
 
-yaml
-Copy code
-jadi username GitHub kamu.
+🚫 JANGAN MERGE SENDIRI
 
----
+🛑 ATURAN KERAS (WAJIB DITAATI)
 
-### 5️⃣ Simpan, lalu commit
-```bash
-git add README.md
-git commit -m "Add README workflow project"
-git push origin develop
-````
+❌ Jangan push ke main
+❌ Jangan push ke develop
+❌ Jangan merge PR
+❌ Jangan edit .env
+❌ Jangan panik kalau error
+
+✅ Kerja di branch sendiri
+✅ Tanya leader kalau bingung
+
+🚨 KALAU ADA ERROR / BINGUNG
+
+HENTIKAN dulu dan kirim pesan ke leader:
+
+“Aku error pas push / branch, aku stop dulu.”
+
+🧠 RINGKASAN SUPER SINGKAT (HAFALIN)
+git clone
+git checkout develop
+git checkout -b feature/nama
+kerja
+git add .
+git commit -m "pesan"
+git push origin feature/nama
