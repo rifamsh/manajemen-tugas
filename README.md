@@ -1,48 +1,51 @@
-# 📌 Sistem Manajemen Tugas Kelompok
+Sistem Manajemen Tugas Kelompok (Laravel)
 
-Project UAS – Laravel  
-Jumlah Anggota: 6 Orang
-
----
-
-## 🎯 Deskripsi Project
-
-Aplikasi web berbasis Laravel untuk manajemen tugas kelompok dengan fitur:
-
--   Manajemen Proyek
--   Manajemen Tugas
--   Deadline tugas
--   Status tugas (To Do, Proses, Selesai)
--   Komentar antar pengguna
--   Sistem kerja kolaboratif menggunakan GitHub
+Dokumen ini berisi **aturan dan panduan wajib** untuk seluruh anggota tim agar repository aman dan tidak terjadi konflik kode.
 
 ---
 
-## 🧠 Aturan Utama (WAJIB DIBACA)
+## 🧠 Prinsip Utama (WAJIB DIPATUHI)
 
-❌ DILARANG push ke branch `main`  
-❌ DILARANG push ke branch `develop`  
-❌ DILARANG merge Pull Request sendiri
+-   ❌ DILARANG push ke branch `main`
+-   ❌ DILARANG push ke branch `develop`
+-   ❌ DILARANG merge Pull Request sendiri
+-   ✅ Setiap anggota WAJIB kerja di branch masing-masing
+-   ✅ Merge hanya dilakukan oleh **Leader**
 
-✅ Setiap anggota WAJIB kerja di branch masing-masing  
-✅ Merge hanya dilakukan oleh **Leader**
-
-Jika ragu atau error → **STOP dan hubungi Leader**
+Jika ragu atau terjadi error → **STOP dan hubungi Leader**
 
 ---
 
-## 🧰 Tools yang Digunakan
-
-WAJIB:
+## 🧰 Tools Wajib
 
 -   Git
 -   VS Code
--   Akun GitHub
+-   Akun GitHub (sudah di-invite & accept sebagai collaborator)
 
-OPSIONAL (sesuai tugas):
+Tools opsional (sesuai tugas):
 
--   Laragon (untuk backend Laravel)
--   Node.js & NPM (untuk frontend)
+-   Laragon (backend Laravel)
+-   Node.js & NPM (frontend)
+
+---
+
+## 🌿 Aturan Branch
+
+Format branch anggota:
+feature/nama-fitur
+
+yaml
+Copy code
+
+Contoh:
+
+-   `feature/project-management`
+-   `feature/task-crud`
+-   `feature/task-status`
+-   `feature/task-comments`
+-   `feature/ui-docs`
+
+❌ Jangan membuat branch selain format di atas
 
 ---
 
@@ -53,37 +56,30 @@ OPSIONAL (sesuai tugas):
 ```bash
 git clone https://github.com/USERNAME/task-manager-uas.git
 cd task-manager-uas
-2️⃣ Pindah ke Branch Develop
+2️⃣ Pindah ke Develop
 bash
 Copy code
 git checkout develop
 git pull origin develop
-3️⃣ Buat Branch Sendiri (WAJIB)
-Gunakan format:
-
+3️⃣ Buat Branch Sendiri
 bash
 Copy code
-feature/nama-fitur
-Contoh:
-
-bash
-Copy code
-git checkout -b feature/task-crud
-📌 Branch ini digunakan terus, jangan buat ulang setiap hari
+git checkout -b feature/nama-fitur
+Branch ini digunakan terus, jangan buat ulang setiap hari.
 
 4️⃣ Kerjakan Tugas
-Edit file sesuai bagian masing-masing
+Fokus hanya pada bagian masing-masing
 
-Jangan edit .env
+Jangan mengedit file di luar tugas
 
-Jangan menghapus kode anggota lain
+Jangan menyentuh file .env
 
 5️⃣ Commit Perubahan
 bash
 Copy code
 git status
 git add .
-git commit -m "Tambah fitur task CRUD"
+git commit -m "Deskripsi singkat perubahan"
 Gunakan pesan commit yang jelas.
 
 6️⃣ Push ke Branch Sendiri
@@ -101,31 +97,87 @@ Base branch: develop
 
 Klik Create Pull Request
 
-Tunggu review dari Leader
+Tunggu review Leader
 
 🚫 Jangan merge sendiri
 
-🔒 Keamanan Branch
-Branch main dan develop dilindungi menggunakan Branch Protection Rules:
+🗂️ Peta File Laravel (ANTI NYASAR)
+Folder utama yang boleh disentuh:
+swift
+Copy code
+app/Models/
+app/Http/Controllers/
+database/migrations/
+resources/views/
+routes/web.php
+Folder yang DILARANG disentuh:
+arduino
+Copy code
+.env
+vendor/
+storage/
+config/
+🧑‍💻 Pembagian Tugas & File
+👤 Anggota 1 — Manajemen Proyek
+database/migrations/*_create_projects_table.php
 
-Anggota tidak bisa push langsung
+app/Models/Project.php
 
-Anggota tidak bisa merge
+app/Http/Controllers/ProjectController.php
+
+resources/views/projects/*
+
+routes/web.php (route project)
+
+👤 Anggota 2 — Manajemen Tugas
+database/migrations/*_create_tasks_table.php
+
+app/Models/Task.php
+
+app/Http/Controllers/TaskController.php
+
+resources/views/tasks/*
+
+routes/web.php (route task)
+
+👤 Anggota 3 — Status Tugas
+database/migrations/*_add_status_to_tasks_table.php
+
+app/Models/Task.php (logic status)
+
+app/Http/Controllers/TaskController.php (update status)
+
+resources/views/tasks/index.blade.php
+
+👤 Anggota 4 — Komentar Pengguna
+database/migrations/*_create_comments_table.php
+
+app/Models/Comment.php
+
+app/Http/Controllers/CommentController.php
+
+resources/views/tasks/show.blade.php
+
+Relasi di Task.php & User.php
+
+👤 Anggota 5 — UI & Dokumentasi
+resources/views/layouts/app.blade.php
+
+resources/views/*
+
+resources/css/
+
+resources/js/
+
+README.md
+
+❌ Tidak mengubah controller, model, migration
+
+🔒 Keamanan Repository
+Branch main dan develop dilindungi dengan Branch Protection Rules
 
 Semua perubahan masuk melalui Pull Request
 
-🧪 Testing
-Project ini menggunakan PHPUnit sebagai framework testing bawaan Laravel.
+Leader bertanggung jawab atas merge dan integrasi
 
-⚠️ Catatan Penting
-File .env TIDAK BOLEH di-push
-
-Konfigurasi database dilakukan masing-masing di lokal
-
-Gunakan .env.example sebagai template
-
-🗣️ Jika Terjadi Error
-Hentikan pekerjaan dan hubungi Leader dengan format:
-
-“Saya error di bagian (sebutkan), saya stop dulu.”
 ```
