@@ -1,118 +1,131 @@
 # 📌 Sistem Manajemen Tugas Kelompok
 
 Project UAS – Laravel  
-Kelompok (6 Orang)
+Jumlah Anggota: 6 Orang
 
-## 📖 Deskripsi
+---
 
-Sistem Manajemen Tugas Kelompok adalah aplikasi berbasis web yang digunakan untuk mengelola pekerjaan dalam sebuah tim.  
-Aplikasi ini dibangun menggunakan Laravel dan dikembangkan secara kolaboratif menggunakan GitHub.
+## 🎯 Deskripsi Project
 
-### Fitur Utama:
+Aplikasi web berbasis Laravel untuk manajemen tugas kelompok dengan fitur:
 
--   Autentikasi pengguna (Login & Register)
 -   Manajemen Proyek
 -   Manajemen Tugas
 -   Deadline tugas
--   Status tugas (To Do, In Progress, Done)
--   Komentar pada tugas
+-   Status tugas (To Do, Proses, Selesai)
+-   Komentar antar pengguna
+-   Sistem kerja kolaboratif menggunakan GitHub
 
 ---
 
-## 🧑‍🤝‍🧑 Aturan Kerja Tim (WAJIB DIBACA)
+## 🧠 Aturan Utama (WAJIB DIBACA)
 
--   ❌ DILARANG push langsung ke branch `main`
--   ❌ DILARANG push langsung ke branch `develop`
--   ✅ SETIAP ORANG wajib pakai branch masing-masing
--   ✅ Semua penggabungan kode melalui Pull Request
--   ✅ Jika ada error / conflict → hubungi leader
+❌ DILARANG push ke branch `main`  
+❌ DILARANG push ke branch `develop`  
+❌ DILARANG merge Pull Request sendiri
 
----
+✅ Setiap anggota WAJIB kerja di branch masing-masing  
+✅ Merge hanya dilakukan oleh **Leader**
 
-## 🌿 Struktur Branch
-
-main → versi final (pengumpulan UAS)
-develop → branch kerja tim
-feature/\* → branch masing-masing anggota
-
-yaml
-Copy code
+Jika ragu atau error → **STOP dan hubungi Leader**
 
 ---
 
-## 🚀 Panduan Anggota Tim
+## 🧰 Tools yang Digunakan
 
-### A. Langkah Awal (Dilakukan Sekali)
+WAJIB:
+
+-   Git
+-   VS Code
+-   Akun GitHub
+
+OPSIONAL (sesuai tugas):
+
+-   Laragon (untuk backend Laravel)
+-   Node.js & NPM (untuk frontend)
+
+---
+
+## 👥 Alur Kerja Anggota (STEP BY STEP)
+
+### 1️⃣ Clone Repository (CUMA SEKALI)
 
 ```bash
 git clone https://github.com/USERNAME/task-manager-uas.git
 cd task-manager-uas
-git checkout develop
-git pull origin develop
-composer install
-cp .env.example .env
-php artisan key:generate
-php artisan migrate
-php artisan serve
-Buka browser:
-
-cpp
-Copy code
-http://127.0.0.1:8000
-B. Mulai Kerja (Setiap Hari)
-Buat branch sesuai tugas:
-
-bash
-Copy code
-git checkout -b feature/nama-fitur
-Sebelum ngoding:
-
+2️⃣ Pindah ke Branch Develop
 bash
 Copy code
 git checkout develop
 git pull origin develop
-git checkout feature/nama-fitur
-git merge develop
-C. Simpan & Kirim Hasil Kerja
+3️⃣ Buat Branch Sendiri (WAJIB)
+Gunakan format:
+
 bash
 Copy code
+feature/nama-fitur
+Contoh:
+
+bash
+Copy code
+git checkout -b feature/task-crud
+📌 Branch ini digunakan terus, jangan buat ulang setiap hari
+
+4️⃣ Kerjakan Tugas
+Edit file sesuai bagian masing-masing
+
+Jangan edit .env
+
+Jangan menghapus kode anggota lain
+
+5️⃣ Commit Perubahan
+bash
+Copy code
+git status
 git add .
-git commit -m "Deskripsi perubahan"
+git commit -m "Tambah fitur task CRUD"
+Gunakan pesan commit yang jelas.
+
+6️⃣ Push ke Branch Sendiri
+bash
+Copy code
 git push origin feature/nama-fitur
-D. Pull Request
+❌ Jangan push ke main atau develop
+
+7️⃣ Buat Pull Request
 Buka GitHub repository
 
 Klik Compare & Pull Request
 
-Base: develop
+Base branch: develop
 
-Compare: feature/nama-fitur
+Klik Create Pull Request
 
-Submit dan tunggu leader merge
+Tunggu review dari Leader
 
-👥 Pembagian Tugas
-Anggota	Tugas
-1	Leader & Integrator
-2	Auth & User
-3	Proyek
-4	Tugas
-5	Komentar
-6	UI / UX
+🚫 Jangan merge sendiri
+
+🔒 Keamanan Branch
+Branch main dan develop dilindungi menggunakan Branch Protection Rules:
+
+Anggota tidak bisa push langsung
+
+Anggota tidak bisa merge
+
+Semua perubahan masuk melalui Pull Request
+
+🧪 Testing
+Project ini menggunakan PHPUnit sebagai framework testing bawaan Laravel.
 
 ⚠️ Catatan Penting
-Jika terjadi conflict atau error Git:
-👉 JANGAN merge sendiri, hubungi leader
+File .env TIDAK BOLEH di-push
 
-yaml
-Copy code
+Konfigurasi database dilakukan masing-masing di lokal
 
----
+Gunakan .env.example sebagai template
 
-### 4️⃣ Ganti `USERNAME`
-Ubah bagian ini:
-https://github.com/USERNAME/task-manager-uas.git
+🗣️ Jika Terjadi Error
+Hentikan pekerjaan dan hubungi Leader dengan format:
 
-yaml
-Copy code
-jadi username GitHub kamu.
+“Saya error di bagian (sebutkan), saya stop dulu.”
 ```
