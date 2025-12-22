@@ -1,183 +1,135 @@
-Sistem Manajemen Tugas Kelompok (Laravel)
+👑 TUGAS 1 — LEADER + AUTH & INTEGRASI
 
-Dokumen ini berisi **aturan dan panduan wajib** untuk seluruh anggota tim agar repository aman dan tidak terjadi konflik kode.
+(KAMU, TETAP IKUT NGODING)
 
----
+Fokus
 
-## 🧠 Prinsip Utama (WAJIB DIPATUHI)
+Setup Laravel
 
--   ❌ DILARANG push ke branch `main`
--   ❌ DILARANG push ke branch `develop`
--   ❌ DILARANG merge Pull Request sendiri
--   ✅ Setiap anggota WAJIB kerja di branch masing-masing
--   ✅ Merge hanya dilakukan oleh **Leader**
+Auth (login/register)
 
-Jika ragu atau terjadi error → **STOP dan hubungi Leader**
+Integrasi semua fitur
 
----
+Merge PR
 
-## 🧰 Tools Wajib
+FILE YANG BOLEH DISENTUH
+app/Models/User.php
+database/migrations/_users_
+resources/views/auth/
+resources/views/layouts/app.blade.php
+README.md
+CONTRIBUTING.md
 
--   Git
--   VS Code
--   Akun GitHub (sudah di-invite & accept sebagai collaborator)
+❌ TIDAK menyentuh:
 
-Tools opsional (sesuai tugas):
+ProjectController
+TaskController
+CommentController
 
--   Laragon (backend Laravel)
--   Node.js & NPM (frontend)
+🌿 Branch:
 
----
+feature/auth-setup
 
-## 🌿 Aturan Branch
+👤 TUGAS 2 — PROJECT (CRUD)
 
-Format branch anggota:
-feature/nama-fitur
+AMAN karena berdiri sendiri
 
-yaml
-Copy code
-
-Contoh:
-
--   `feature/project-management`
--   `feature/task-crud`
--   `feature/task-status`
--   `feature/task-comments`
--   `feature/ui-docs`
-
-❌ Jangan membuat branch selain format di atas
-
----
-
-## 👥 Alur Kerja Anggota (STEP BY STEP)
-
-### 1️⃣ Clone Repository (CUMA SEKALI)
-
-```bash
-git clone https://github.com/USERNAME/task-manager-uas.git
-cd task-manager-uas
-2️⃣ Pindah ke Develop
-bash
-Copy code
-git checkout develop
-git pull origin develop
-3️⃣ Buat Branch Sendiri
-bash
-Copy code
-git checkout -b feature/nama-fitur
-Branch ini digunakan terus, jangan buat ulang setiap hari.
-
-4️⃣ Kerjakan Tugas
-Fokus hanya pada bagian masing-masing
-
-Jangan mengedit file di luar tugas
-
-Jangan menyentuh file .env
-
-5️⃣ Commit Perubahan
-bash
-Copy code
-git status
-git add .
-git commit -m "Deskripsi singkat perubahan"
-Gunakan pesan commit yang jelas.
-
-6️⃣ Push ke Branch Sendiri
-bash
-Copy code
-git push origin feature/nama-fitur
-❌ Jangan push ke main atau develop
-
-7️⃣ Buat Pull Request
-Buka GitHub repository
-
-Klik Compare & Pull Request
-
-Base branch: develop
-
-Klik Create Pull Request
-
-Tunggu review Leader
-
-🚫 Jangan merge sendiri
-
-🗂️ Peta File Laravel (ANTI NYASAR)
-Folder utama yang boleh disentuh:
-swift
-Copy code
-app/Models/
-app/Http/Controllers/
-database/migrations/
-resources/views/
-routes/web.php
-Folder yang DILARANG disentuh:
-arduino
-Copy code
-.env
-vendor/
-storage/
-config/
-🧑‍💻 Pembagian Tugas & File
-👤 Anggota 1 — Manajemen Proyek
-database/migrations/*_create_projects_table.php
-
+FILE
 app/Models/Project.php
-
 app/Http/Controllers/ProjectController.php
+database/migrations/_projects_
+resources/views/projects/
 
-resources/views/projects/*
+🌿 Branch:
 
-routes/web.php (route project)
+feature/project
 
-👤 Anggota 2 — Manajemen Tugas
-database/migrations/*_create_tasks_table.php
+🚫 Tidak menyentuh task / comment
 
+👤 TUGAS 3 — TASK (CRUD + DEADLINE)
+FILE
 app/Models/Task.php
-
 app/Http/Controllers/TaskController.php
+database/migrations/_tasks_
+resources/views/tasks/
 
-resources/views/tasks/*
+🌿 Branch:
 
-routes/web.php (route task)
+feature/task
 
-👤 Anggota 3 — Status Tugas
-database/migrations/*_add_status_to_tasks_table.php
+🚫 Tidak menyentuh project & comment
 
-app/Models/Task.php (logic status)
+👤 TUGAS 4 — STATUS TUGAS
 
-app/Http/Controllers/TaskController.php (update status)
+Hanya EXTEND task, bukan rewrite
 
+FILE (SANGAT TERBATAS)
+database/migrations/_add_status_
 resources/views/tasks/index.blade.php
 
-👤 Anggota 4 — Komentar Pengguna
-database/migrations/*_create_comments_table.php
+⚠️ HANYA TAMBAH, bukan hapus logic task
 
+🌿 Branch:
+
+feature/task-status
+
+👤 TUGAS 5 — KOMENTAR
+
+Berdiri sendiri
+
+FILE
 app/Models/Comment.php
-
 app/Http/Controllers/CommentController.php
-
+database/migrations/_comments_
 resources/views/tasks/show.blade.php
 
-Relasi di Task.php & User.php
+🌿 Branch:
 
-👤 Anggota 5 — UI & Dokumentasi
-resources/views/layouts/app.blade.php
+feature/comment
 
-resources/views/*
+🚫 Tidak menyentuh TaskController utama
 
+👤 TUGAS 6 — UI & LAYOUT
+
+PALING AMAN karena frontend-only
+
+FILE
+resources/views/layouts/
+resources/views/components/
 resources/css/
-
 resources/js/
 
-README.md
+🌿 Branch:
 
-❌ Tidak mengubah controller, model, migration
+feature/ui
 
-🔒 Keamanan Repository
-Branch main dan develop dilindungi dengan Branch Protection Rules
+🚫 Tidak menyentuh logic backend
 
-Semua perubahan masuk melalui Pull Request
+🧠 KUNCI AGAR GIT KELIHATAN RAPI
+✅ Aturan File Emas
+File Siapa
+routes/web.php LEADER
+.env TIDAK ADA
+User.php LEADER
+Controller lain MASING-MASING
+🔁 ALUR KERJA SEMUA ANGGOTA (TERMASUK LEADER)
+git checkout develop
+git pull origin develop
+git checkout -b feature/nama-fitur
 
-Leader bertanggung jawab atas merge dan integrasi
+Kerja ➜ commit ➜ push ➜ PR ➜ leader merge
 
-```
+🧾 CONTOH COMMIT MESSAGE (BIAR RAPI)
+
+✅ BENAR:
+
+Add project CRUD
+Add task deadline field
+Add comment feature
+Update task status badge
+
+❌ SALAH:
+
+fix
+update
+coba-coba
