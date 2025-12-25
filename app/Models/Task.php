@@ -7,27 +7,31 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Task extends Model
 {
-    use HasFactory;
-
-    const STATUS_TODO = 'todo';
-    const STATUS_PROGRESS = 'in_progress';
-    const STATUS_DONE = 'done';
-
     protected $fillable = [
         'project_id',
         'user_id',
         'title',
         'description',
-        'deadline',
-        'status'
+        'status',
+        'deadline'
     ];
 
-    public static function statuses()
+    public function project()
     {
-        return [
-            self::STATUS_TODO,
-            self::STATUS_PROGRESS,
-            self::STATUS_DONE,
-        ];
+        return $this->belongsTo(Project::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+    public function files()
+    {
+        return $this->hasMany(File::class);
     }
 }
