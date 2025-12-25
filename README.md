@@ -1,131 +1,88 @@
-# 📌 Sistem Manajemen Tugas Kelompok
+# 📌 Task Manager Web Application
 
-Project UAS – Laravel  
-Jumlah Anggota: 6 Orang
-
----
-
-## 🎯 Deskripsi Project
-
-Aplikasi web berbasis Laravel untuk manajemen tugas kelompok dengan fitur:
-
--   Manajemen Proyek
--   Manajemen Tugas
--   Deadline tugas
--   Status tugas (To Do, Proses, Selesai)
--   Komentar antar pengguna
--   Sistem kerja kolaboratif menggunakan GitHub
+Aplikasi **Task Manager berbasis Web** yang digunakan untuk mengelola **project, task, anggota tim, komentar, dan file** dalam satu sistem terintegrasi.  
+Project ini dikembangkan sebagai **tugas mata kuliah Pemrograman Berbasis Web**.
 
 ---
 
-## 🧠 Aturan Utama (WAJIB DIBACA)
+## 👥 Tim Pengembang
 
-❌ DILARANG push ke branch `main`  
-❌ DILARANG push ke branch `develop`  
-❌ DILARANG merge Pull Request sendiri
-
-✅ Setiap anggota WAJIB kerja di branch masing-masing  
-✅ Merge hanya dilakukan oleh **Leader**
-
-Jika ragu atau error → **STOP dan hubungi Leader**
-
----
-
-## 🧰 Tools yang Digunakan
-
-WAJIB:
-
--   Git
--   VS Code
--   Akun GitHub
-
-OPSIONAL (sesuai tugas):
-
--   Laragon (untuk backend Laravel)
--   Node.js & NPM (untuk frontend)
+| Nama           | Peran                  |
+| -------------- | ---------------------- |
+| (Maulana Arif) | Leader Project / Model |
+| (Rhista)       | view                   |
+| (Dika)         | View                   |
+| (Hilma)        | Controller             |
+| (Rizky)        | Controller             |
+| (Zilmie)       | Model                  |
 
 ---
 
-## 👥 Alur Kerja Anggota (STEP BY STEP)
+## 🎯 Tujuan Aplikasi
 
-### 1️⃣ Clone Repository (CUMA SEKALI)
+-   Mengelola project secara terstruktur
+-   Membagi tugas (task) kepada anggota tim
+-   Memantau status pekerjaan (To Do, In Progress, Done)
+-   Menyediakan kolaborasi melalui komentar
+-   Menyimpan file pendukung project
 
-```bash
-git clone https://github.com/USERNAME/task-manager-uas.git
-cd task-manager-uas
-2️⃣ Pindah ke Branch Develop
-bash
-Copy code
-git checkout develop
-git pull origin develop
-3️⃣ Buat Branch Sendiri (WAJIB)
-Gunakan format:
+---
 
-bash
-Copy code
-feature/nama-fitur
-Contoh:
+## 🚀 Fitur Utama
 
-bash
-Copy code
-git checkout -b feature/task-crud
-📌 Branch ini digunakan terus, jangan buat ulang setiap hari
+-   🔐 Authentication (Login & Register)
+-   📁 Manajemen Project
+-   📝 Manajemen Task
+-   👥 Project Team (Leader & Member)
+-   💬 Comment pada Task
+-   📎 Upload File
+-   📊 Status Task (To Do, Process, Done)
 
-4️⃣ Kerjakan Tugas
-Edit file sesuai bagian masing-masing
+---
 
-Jangan edit .env
+## 🧩 Teknologi yang Digunakan
 
-Jangan menghapus kode anggota lain
+-   **Framework**: Laravel 11
+-   **Bahasa Pemrograman**: PHP
+-   **Database**: MySQL
+-   **Frontend**: Blade Template
+-   **Version Control**: Git & GitHub
 
-5️⃣ Commit Perubahan
-bash
-Copy code
-git status
-git add .
-git commit -m "Tambah fitur task CRUD"
-Gunakan pesan commit yang jelas.
+---
 
-6️⃣ Push ke Branch Sendiri
-bash
-Copy code
-git push origin feature/nama-fitur
-❌ Jangan push ke main atau develop
+## 🗂️ Struktur Database (ERD)
 
-7️⃣ Buat Pull Request
-Buka GitHub repository
+Relasi database dirancang menggunakan **Entity Relationship Diagram (ERD)** dengan tabel utama:
 
-Klik Compare & Pull Request
+-   users
+-   projects
+-   project_teams
+-   tasks
+-   comments
+-   files
 
-Base branch: develop
+Relasi utama:
 
-Klik Create Pull Request
+-   User dapat memiliki banyak Project
+-   Project memiliki banyak Task
+-   Task dapat memiliki banyak Comment dan File
+-   Project memiliki banyak anggota (many-to-many)
 
-Tunggu review dari Leader
+---
 
-🚫 Jangan merge sendiri
+## 📂 Struktur Folder Penting
 
-🔒 Keamanan Branch
-Branch main dan develop dilindungi menggunakan Branch Protection Rules:
-
-Anggota tidak bisa push langsung
-
-Anggota tidak bisa merge
-
-Semua perubahan masuk melalui Pull Request
-
-🧪 Testing
-Project ini menggunakan PHPUnit sebagai framework testing bawaan Laravel.
-
-⚠️ Catatan Penting
-File .env TIDAK BOLEH di-push
-
-Konfigurasi database dilakukan masing-masing di lokal
-
-Gunakan .env.example sebagai template
-
-🗣️ Jika Terjadi Error
-Hentikan pekerjaan dan hubungi Leader dengan format:
-
-“Saya error di bagian (sebutkan), saya stop dulu.”
-```
+app/
+├── Models/
+│ ├── User.php
+│ ├── Project.php
+│ ├── ProjectTeam.php
+│ ├── Task.php
+│ ├── Comment.php
+│ └── File.php
+│
+├── Http/
+│ └── Controllers/
+│ ├── ProjectController.php
+│ ├── TaskController.php
+│ └── CommentController.php
