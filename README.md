@@ -72,17 +72,19 @@ Relasi utama:
 
 ## 📂 Struktur Folder Penting
 
+```text
 app/
 ├── Models/
-│ ├── User.php
-│ ├── Project.php
-│ ├── ProjectTeam.php
-│ ├── Task.php
-│ ├── Comment.php
-│ └── File.php
+│   ├── User.php
+│   ├── Project.php
+│   ├── ProjectTeam.php
+│   ├── Task.php
+│   ├── Comment.php
+│   └── File.php
 │
-├── Http/
-│ └── Controllers/
-│ ├── ProjectController.php
-│ ├── TaskController.php
-│ └── CommentController.php
+└── Http/
+    └── Controllers/
+        ├── ProjectController.php
+        ├── TaskController.php
+        └── CommentController.php
+```
