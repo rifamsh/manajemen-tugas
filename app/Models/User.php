@@ -23,7 +23,7 @@ class User extends Authenticatable
 
     public function projects()
     {
-        return $this->hasMany(Project::class);
+        return $this->belongsToMany(Project::class);
     }
 
     public function tasks()
@@ -32,20 +32,8 @@ class User extends Authenticatable
     }
 
     /**
-     * Get the routines for the user.
-     */
-    public function routines()
-    {
-        return $this->hasMany(Routine::class);
-    }
-
-    /**
      * Get the notes for the user.
      */
-    public function notes()
-    {
-        return $this->hasMany(Note::class);
-    }
 
     /**
      * Get the calendar events for the user.
@@ -55,13 +43,12 @@ class User extends Authenticatable
         return $this->hasMany(File::class);
     }
 
-    public function reminders()
-    {
-        return $this->hasMany(Reminder::class);
-    }
-
     public function projectMembers()
     {
         return $this->belongsToMany(Project::class, 'project_teams', 'user_id', 'project_id');
+    }
+    public function projectTeams()
+    {
+        return $this->hasMany(ProjectTeam::class);
     }
 }
