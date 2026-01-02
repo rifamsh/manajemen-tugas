@@ -1,47 +1,59 @@
-<x-guest-layout>
-    <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
+@extends('layouts.auth')
 
-    <form method="POST" action="{{ route('login') }}">
-        @csrf
+@section('title', 'Login')
 
-        <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+@section('content')
+<div class="mb-5">
+    <h2 class="login-heading mb-2">Welcome Back! </h2>
+    <p class="text-muted">Silakan masuk untuk mengelola tugas Anda.</p>
+</div>
+
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul class="mb-0">
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
+<form action="{{ route('login.process') }}" method="POST">
+    @csrf <div class="form-floating mb-3">
+        <input type="email" class="form-control" id="email" placeholder="name@example.com" required>
+        <label for="email">Email Address</label>
+    </div>
+
+    <div class="form-floating mb-3">
+        <input type="password" class="form-control" id="password" placeholder="Password" required>
+        <label for="password">Password</label>
+    </div>
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="remember">
+            <label class="form-check-label small" for="remember">Ingat Saya</label>
         </div>
+        <a href="#" class="text-decoration-none small text-primary">Lupa Password?</a>
+    </div>
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
+    <button type="submit" class="btn btn-primary w-100 mb-3">Masuk Sekarang</button>
 
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="current-password" />
+    <div class="text-center mb-3">
+        <span class="text-muted small">atau masuk dengan</span>
+    </div>
 
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
-
-        <!-- Remember Me -->
-        <div class="block mt-4">
-            <label for="remember_me" class="inline-flex items-center">
-                <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="remember">
-                <span class="ms-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
-            </label>
-        </div>
-
-        <div class="flex items-center justify-end mt-4">
-            @if (Route::has('password.request'))
-                <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}">
-                    {{ __('Forgot your password?') }}
-                </a>
-            @endif
-
-            <x-primary-button class="ms-3">
-                {{ __('Log in') }}
-            </x-primary-button>
-        </div>
-    </form>
-</x-guest-layout>
+    <div class="d-flex gap-2 mb-4">
+        <button type="button" class="btn btn-outline-secondary w-50 small">
+            <i class="fab fa-google me-1"></i> Google
+        </button>
+        <button type="button" class="btn btn-outline-secondary w-50 small">
+            <i class="fab fa-github me-1"></i> GitHub
+        </button>
+    </div>
+    
+    <div class="text-center">
+        <small class="text-muted">Belum punya akun? <a href="{{ url('/register') }}" class="fw-bold text-primary text-decoration-none">Daftar di sini</a></small>
+    </div>
+</form>
+@endsection

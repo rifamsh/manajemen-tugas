@@ -1,72 +1,65 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController; // PENTING: Panggil Controllernya
 
+/*
+|--------------------------------------------------------------------------
+| Web Routes (UPDATED)
+|--------------------------------------------------------------------------
+*/
 
-// --- 1. HALAMAN UTAMA (ROOT) ---
-// Saat aplikasi pertama dibuka, arahkan user ke halaman Login
+// --- 1. HALAMAN UTAMA ---
 Route::get('/', function () {
     return redirect()->route('login');
 });
 
-// --- 2. AUTHENTICATION (Login & Register) ---
+// --- 2. AUTHENTICATION (GET = Tampil, POST = Proses) ---
+
+// Login
 Route::get('/login', function () {
     return view('auth.login');
 })->name('login');
 
+Route::post('/login', [AuthController::class, 'login'])->name('login.process'); // INI YANG TADINYA ERROR
+
+// Register
 Route::get('/register', function () {
     return view('auth.register');
 })->name('register');
 
-// --- 3. DASHBOARD ---
-Route::get('/dashboard', function () {
-    return view('dashboard.index');
-})->name('dashboard');
+Route::post('/register', [AuthController::class, 'register'])->name('register.process');
+
+// Logout
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
-// --- MENU LAIN (Tetap dikunci) ---
+// --- 3. DASHBOARD & MENU LAIN (Hanya bisa diakses kalau sudah Login) ---
+// Kita pakai 'middleware' => 'auth' supaya yang belum login tidak bisa tembus lewat URL
+
 Route::middleware(['auth'])->group(function () {
     
-    // Route::get('/dashboard'...)  <-- HAPUS YANG DI DALAM SINI
-    
+    Route::get('/dashboard', function () {
+        return view('dashboard.index');
+    })->name('dashboard');
+
     Route::get('/tasks', function () {
         return view('tasks.index');
     })->name('tasks.index');
 
-    // ... sisa route lainnya biarkan di sini
+    Route::get('/calendar', function () {
+        return view('tasks.calendar');
+    })->name('calendar');
+
+    Route::get('/tasks/{id}', function ($id) {
+        return view('tasks.show');
+    })->name('tasks.show');
+
+    Route::get('/groups/create', function () {
+        return view('groups.create');
+    })->name('groups.create');
+
+    // Placeholder
+    Route::get('/files', function () { return "File Manager"; })->name('files');
+    Route::get('/profile', function () { return "Profile"; })->name('profile');
 });
-
-// --- 4. TASK MANAGEMENT ---
-// Halaman Kanban Board
-Route::get('/tasks', function () {
-    return view('tasks.index');
-})->name('tasks.index');
-
-// Halaman Calendar View
-// (PENTING: Letakkan route ini SEBELUM route detail /{id} agar tidak tertukar)
-Route::get('/calendar', function () {
-    return view('tasks.calendar');
-})->name('calendar');
-
-// Halaman Detail Task (Contoh ID sembarang)
-// Kita pakai parameter {id} agar terlihat dinamis, meski view-nya masih statis
-Route::get('/tasks/{id}', function ($id) {
-    return view('tasks.show');
-})->name('tasks.show');
-
-// --- 5. GROUP MANAGEMENT ---
-Route::get('/groups/create', function () {
-    return view('groups.create');
-})->name('groups.create');
-
-// --- 6. PLACEHOLDER (Menu Lain) ---
-// Route sementara untuk menu yang ada di Sidebar tapi belum kita buat view-nya
-// Supaya tidak error 404 saat diklik.
-
-Route::get('/files', function () {
-    return "<center><h1>Halaman File Manager</h1><p>Sedang dalam pengembangan (Tim View)</p><a href='/dashboard'>Kembali</a></center>";
-})->name('files');
-
-Route::get('/profile', function () {
-    return "<center><h1>Halaman User Profile</h1><p>Sedang dalam pengembangan (Tim View)</p><a href='/dashboard'>Kembali</a></center>";
-})->name('profile');
