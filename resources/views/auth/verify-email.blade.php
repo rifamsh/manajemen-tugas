@@ -1,31 +1,53 @@
-<x-guest-layout>
-    <div class="mb-4 text-sm text-gray-600">
-        {{ __('Thanks for signing up! Before getting started, could you verify your email address by clicking on the link we just emailed to you? If you didn\'t receive the email, we will gladly send you another.') }}
-    </div>
+@extends('layouts.auth')
 
-    @if (session('status') == 'verification-link-sent')
-        <div class="mb-4 font-medium text-sm text-green-600">
-            {{ __('A new verification link has been sent to the email address you provided during registration.') }}
-        </div>
-    @endif
+@section('title', 'Verify Email - Task Manager')
 
-    <div class="mt-4 flex items-center justify-between">
-        <form method="POST" action="{{ route('verification.send') }}">
-            @csrf
+@section('content')
+<div class="container-fluid">
+    <div class="row h-100 g-0">
+        
+        <div class="col-lg-4 col-md-5 login-left">
+            <div style="width: 100%; max-width: 380px;">
+                
+                <div class="d-flex align-items-center mb-4">
+                    <img src="{{ asset('img/logo.png') }}" alt="Logo" width="200" class="me-2">
+                </div>
 
-            <div>
-                <x-primary-button>
-                    {{ __('Resend Verification Email') }}
-                </x-primary-button>
+                <div class="mb-4">
+                    <h2 class="fw-bold text-dark">Verify Email</h2>
+                    <p class="text-muted small">
+                        Thanks for signing up! Before getting started, could you verify your email address by clicking on the link we just emailed to you?
+                    </p>
+                </div>
+
+                @if (session('status') == 'verification-link-sent')
+                    <div class="alert alert-success py-2 small mb-4">
+                        A new verification link has been sent to the email address you provided during registration.
+                    </div>
+                @endif
+
+                <div class="d-grid gap-2 mb-4">
+                    <form method="POST" action="{{ route('verification.send') }}">
+                        @csrf
+                        <button type="submit" class="btn btn-primary shadow-sm w-100">Resend Verification Email</button>
+                    </form>
+
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit" class="btn btn-outline-secondary w-100">Log Out</button>
+                    </form>
+                </div>
             </div>
-        </form>
+        </div>
 
-        <form method="POST" action="{{ route('logout') }}">
-            @csrf
+        <div class="col-lg-8 col-md-7 d-none d-md-block login-right">
+            <div class="wave-connector">
+                <svg viewBox="0 0 500 1500" preserveAspectRatio="none">
+                    <path d="M0,0 L0,1500 L50,1500 C400,1000 50,500 350,0 Z"></path>
+                </svg>
+            </div>
+        </div>
 
-            <button type="submit" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                {{ __('Log Out') }}
-            </button>
-        </form>
     </div>
-</x-guest-layout>
+</div>
+@endsection

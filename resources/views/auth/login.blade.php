@@ -1,59 +1,74 @@
 @extends('layouts.auth')
 
-@section('title', 'Login')
+@section('title', 'Login - Task Manager')
 
 @section('content')
-<div class="mb-5">
-    <h2 class="login-heading mb-2">Welcome Back! </h2>
-    <p class="text-muted">Silakan masuk untuk mengelola tugas Anda.</p>
-</div>
+<div class="container-fluid">
+    <div class="row h-100 g-0">
+        
+        <div class="col-lg-4 col-md-5 login-left">
+            <div style="width: 100%; max-width: 380px;"> <div class="d-flex align-items-center mb-4">
+                    <img src="{{ asset('img/logo.png') }}" alt="Logo" width="200" class="me-2">
+                </div>
 
-@if ($errors->any())
-    <div class="alert alert-danger">
-        <ul class="mb-0">
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
+                <div class="mb-4">
+                    <h2 class="fw-bold text-dark">Welcome Back</h2>
+                    <p class="text-muted small">Please login to your account to continue.</p>
+                </div>
 
-<form action="{{ route('login.process') }}" method="POST">
-    @csrf <div class="form-floating mb-3">
-        <input type="email" class="form-control" id="email" placeholder="name@example.com" required>
-        <label for="email">Email Address</label>
-    </div>
+                @if ($errors->any())
+                    <div class="alert alert-danger py-2 small mb-3">
+                        <ul class="mb-0 ps-3">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
 
-    <div class="form-floating mb-3">
-        <input type="password" class="form-control" id="password" placeholder="Password" required>
-        <label for="password">Password</label>
-    </div>
+                <form action="{{ route('login.process') }}" method="POST">
+                    @csrf
+                    
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-secondary">EMAIL</label>
+                        <input type="email" name="email" class="form-control" placeholder="user@example.com" value="{{ old('email') }}" required>
+                    </div>
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" id="remember">
-            <label class="form-check-label small" for="remember">Ingat Saya</label>
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-secondary">PASSWORD</label>
+                        <input type="password" name="password" class="form-control" placeholder="••••••••" required>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="remember" id="remember">
+                            <label class="form-check-label small text-muted" for="remember">Remember me</label>
+                        </div>
+                        <a href="#" class="small text-primary text-decoration-none">Forgot Password?</a>
+                    </div>
+
+                    <div class="d-grid mb-4">
+                        <button type="submit" class="btn btn-primary shadow-sm">Login</button>
+                    </div>
+
+                    <div class="text-center small">
+                        <span class="text-muted">New here?</span>
+                        <a href="{{ route('register') }}" class="fw-bold text-primary text-decoration-none ms-1">Create Account</a>
+                    </div>
+                </form>
+            </div>
         </div>
-        <a href="#" class="text-decoration-none small text-primary">Lupa Password?</a>
-    </div>
 
-    <button type="submit" class="btn btn-primary w-100 mb-3">Masuk Sekarang</button>
+        <div class="col-lg-8 col-md-7 d-none d-md-block login-right">
+            
+            <div class="wave-connector">
+                <svg viewBox="0 0 500 1500" preserveAspectRatio="none">
+                    <path d="M0,0 L0,1500 L50,1500 C400,1000 50,500 350,0 Z"></path>
+                </svg>
+            </div>
 
-    <div class="text-center mb-3">
-        <span class="text-muted small">atau masuk dengan</span>
-    </div>
+        </div>
 
-    <div class="d-flex gap-2 mb-4">
-        <button type="button" class="btn btn-outline-secondary w-50 small">
-            <i class="fab fa-google me-1"></i> Google
-        </button>
-        <button type="button" class="btn btn-outline-secondary w-50 small">
-            <i class="fab fa-github me-1"></i> GitHub
-        </button>
     </div>
-    
-    <div class="text-center">
-        <small class="text-muted">Belum punya akun? <a href="{{ url('/register') }}" class="fw-bold text-primary text-decoration-none">Daftar di sini</a></small>
-    </div>
-</form>
+</div>
 @endsection
