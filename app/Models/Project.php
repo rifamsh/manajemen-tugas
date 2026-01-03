@@ -2,23 +2,48 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Project extends Model
 {
+    use HasFactory;
+
+    // 1. Kolom yang boleh diisi
     protected $fillable = [
+        'user_id',     // Leader/Pembuat Project
         'name',
         'description',
-        'deadline'
+        'category',    // Design, Dev, Marketing
+        'deadline',
+        'progress',    // Angka 0-100
+        'status'       // active, completed
     ];
 
+    // 2. Casting: Agar 'deadline' otomatis dianggap Tanggal (objek Carbon)
+    // Ini penting biar di View bisa pakai format('d F') -> "20 March"
+    protected $casts = [
+        'deadline' => 'date',
+    ];
+
+    // --- RELASI ---
+
+    // A. Project punya banyak Member (Untuk menampilkan avatar "+3" di dashboard)
+    public function members()
+    {
+        return $this->belongsToMany(User::class, 'project_teams', 'project_id', 'user_id')
+            ->withPivot('role');
+    }
+
+    // B. Project punya banyak Task (Tugas-tugas di dalamnya)
     public function tasks()
     {
         return $this->hasMany(Task::class);
     }
 
-    public function members()
+    // C. Project dibuat oleh satu Leader (User)
+    public function leader()
     {
-        return $this->belongsToMany(User::class, 'project_teams');
+        return $this->belongsTo(User::class, 'user_id');
     }
 }
