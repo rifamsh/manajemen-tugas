@@ -2,21 +2,26 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class comment extends Model
+class Comment extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'task_id',
         'user_id',
-        'content'
+        'comment_text',
     ];
 
+    // Komentar milik Task
     public function task()
     {
         return $this->belongsTo(Task::class);
     }
 
+    // Komentar ditulis oleh User
     public function user()
     {
         return $this->belongsTo(User::class);
