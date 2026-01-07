@@ -1,14 +1,15 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\AuthController; // PENTING: Panggil Controllernya
 
+/*
+|--------------------------------------------------------------------------
+| Web Routes (UPDATED)
+|--------------------------------------------------------------------------
+*/
+
+// --- 1. HALAMAN UTAMA ---
 Route::get('/', function () {
-    return redirect('/projects');
+    return redirect()->route('login');
 });
-
-Route::middleware('auth')->group(function () {
-    Route::resource('projects', ProjectController::class);
-});
-
-require __DIR__ . '/auth.php';
