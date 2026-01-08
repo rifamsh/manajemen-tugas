@@ -20,26 +20,11 @@
                     <a href="{{ route('profile.edit') }}" class="btn btn-primary btn-sm rounded-pill px-4 shadow-sm">
                         <i class="fas fa-edit me-1"></i> Edit Profile
                     </a>
-                    <form action="{{ route('logout') }}" method="POST" class="d-inline">
-                        @csrf
-                        <button type="submit" class="btn btn-outline-danger btn-sm rounded-pill px-4">
-                            <i class="fas fa-sign-out-alt me-1"></i> Logout
-                        </button>
-                    </form>
+
                 </div>
 
                 <hr class="opacity-10">
 
-                <div class="row g-0 py-2">
-                    <div class="col-6 border-end">
-                        <h6 class="fw-bold mb-0">12</h6>
-                        <small class="text-muted" style="font-size: 0.7rem;">TASKS DONE</small>
-                    </div>
-                    <div class="col-6">
-                        <h6 class="fw-bold mb-0">5</h6>
-                        <small class="text-muted" style="font-size: 0.7rem;">PROJECTS</small>
-                    </div>
-                </div>
             </div>
         </div>
 

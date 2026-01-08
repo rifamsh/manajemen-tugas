@@ -24,7 +24,7 @@
                             <i class="fas fa-edit me-1"></i> Change Avatar
                             <input type="file" name="avatar" class="d-none" onchange="this.form.submit()">
                         </label>
-                        <a href="{{ url()->previous() }}" class="btn btn-outline-secondary btn-sm rounded-pill px-4">
+                        <a href="{{ route('login') }}" class="btn btn-outline-secondary btn-sm rounded-pill px-4">
                             <i class="fas fa-times me-1"></i> Cancel
                         </a>
                     </form>
@@ -34,7 +34,7 @@
 
                 <div class="row g-0 py-2">
                     <div class="col-6 border-end">
-                        <h6 class="fw-bold mb-0">12</h6>
+                        <h6 class="fw-bold mb-0">1</h6>
                         <small class="text-muted" style="font-size: 0.7rem;">TASKS DONE</small>
                     </div>
                     <div class="col-6">
