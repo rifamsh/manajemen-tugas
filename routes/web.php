@@ -1,4 +1,8 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\AuthController;
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
@@ -6,8 +10,6 @@ Route::get('/chat', [DashboardController::class, 'chat'])->name('chat');
 Route::get('/tasks', [DashboardController::class, 'taskBoard'])->name('tasks.board');
 Route::get('/timeline', [DashboardController::class, 'timeline'])->name('timeline');
 Route::get('/reports', [DashboardController::class, 'reports'])->name('reports');
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -66,8 +68,8 @@ Route::middleware(['auth'])->group(function () {
         return view('groups.create');
     })->name('groups.create');
 
-    Route::get('/files', fn () => 'File Manager')->name('files');
-    Route::get('/profile', fn () => 'Profile')->name('profile');
+    Route::get('/files', fn() => 'File Manager')->name('files');
+    Route::get('/profile', fn() => 'Profile')->name('profile');
 
     Route::get('/chat', function () {
         return view('chat'); // File: resources/views/chat.blade.php
@@ -95,5 +97,4 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/files', function () {
         return view('files'); // File: resources/views/files.blade.php
     })->name('files.index');
-
 });
