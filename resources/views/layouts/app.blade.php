@@ -115,6 +115,10 @@
             width: 35px; height: 35px; border-radius: 50%; border: 2px solid #fff;
             margin-left: -12px; object-fit: cover;
         }
+        .sidebar-right img {
+            object-fit: cover;
+            display: block;
+        }
         .avatar-group img:first-child { margin-left: 0; }
 
         /* KANBAN BOARD */
@@ -198,11 +202,13 @@
 
         <aside class="sidebar-right d-none d-xl-block">
             <div class="d-flex align-items-center mb-5">
-                <img src="https://i.pravatar.cc/150?img=11" alt="User" class="rounded-circle me-3" width="50" height="50">
-                <div>
-                    <h6 class="fw-bold mb-0">Muh. Sumbul</h6>
-                    <small class="text-muted">Mahasiswa</small>
-                </div>
+                <a href="{{ route('profile') }}" class="d-flex align-items-center text-decoration-none text-dark">
+                    <x-avatar :user="auth()->user()" :size="50" />
+                    <div class="ms-3">
+                        <div class="fw-bold">{{ auth()->user()->name }}</div>
+                        <small class="text-muted d-block">Mahasiswa</small>
+                    </div>
+                </a>
                 <div class="ms-auto">
                     <button class="btn btn-light btn-sm rounded-circle"><i class="fas fa-bell text-muted"></i></button>
                 </div>
@@ -234,32 +240,46 @@
 
             <div>
                 <h6 class="fw-bold mb-4">Today's Schedule</h6>
-                
-                <div class="timeline-item">
-                    <div class="time-label">09:00</div>
-                    <div class="task-box">
-                        <h6 class="fw-bold fs-6 mb-1">UI Design Review</h6>
-                        <small class="text-muted">Review wireframe with team</small>
-                        <i class="fas fa-ellipsis-h position-absolute top-0 end-0 m-3 text-muted"></i>
-                    </div>
-                </div>
 
-                <div class="timeline-item">
-                    <div class="time-label">10:30</div>
-                    <div class="timeline-empty w-100 border-bottom border-light"></div> 
+                @php
+                    // Use `$todayTasks` supplied by AppServiceProvider; fallback to empty collection
+                    $todayTasks = isset($todayTasks) ? $todayTasks : collect();
+                @endphp
+
+                @if($todayTasks->isEmpty())
+                    <div class="text-muted small mb-3">No tasks scheduled for today.</div>
+
+                    <div class="timeline-item">
+                        <div class="time-label">09:00</div>
+                        <div class="task-box">
+                            <h6 class="fw-bold fs-6 mb-1">Example: UI Design Review</h6>
+                            <small class="text-muted">Review wireframe with team</small>
+                        </div>
                     </div>
 
-                <div class="timeline-item">
-                    <div class="time-label">12:00</div>
-                    <div class="task-box orange">
-                        <h6 class="fw-bold fs-6 mb-1">Database Config</h6>
-                        <small class="text-muted">Setup MySQL for project</small>
-                        <i class="fas fa-ellipsis-h position-absolute top-0 end-0 m-3 text-muted"></i>
+                    <div class="timeline-item">
+                        <div class="time-label">12:00</div>
+                        <div class="task-box orange">
+                            <h6 class="fw-bold fs-6 mb-1">Example: Database Config</h6>
+                            <small class="text-muted">Setup MySQL for project</small>
+                        </div>
                     </div>
-                </div>
-                 <div class="timeline-item">
-                    <div class="time-label">02:00</div>
-                     </div>
+
+                    <div class="mt-2">
+                        <a href="{{ route('tasks') }}" class="btn btn-sm btn-outline-primary">Add a task</a>
+                    </div>
+                @else
+                    @foreach($todayTasks as $task)
+                        <div class="timeline-item">
+                            <div class="time-label">{{ $task->due_time ? \Carbon\Carbon::parse($task->due_time)->format('H:i') : '—' }}</div>
+                            <div class="task-box {{ $task->priority == 'High' ? '' : '' }}">
+                                <h6 class="fw-bold fs-6 mb-1">{{ $task->title }}</h6>
+                                <small class="text-muted">{{ \Illuminate\Support\Str::limit($task->description, 80) }}</small>
+                                <i class="fas fa-ellipsis-h position-absolute top-0 end-0 m-3 text-muted"></i>
+                            </div>
+                        </div>
+                    @endforeach
+                @endif
             </div>
         </aside>
 

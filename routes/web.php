@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\TaskController;
+use App\Http\Controllers\ProfileController;
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
@@ -48,13 +50,14 @@ Route::post('/logout', [AuthController::class, 'logout'])
 //
 Route::middleware(['auth'])->group(function () {
 
-    Route::get('/dashboard', function () {
-        return view('dashboard.index');
-    })->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    Route::get('/tasks', function () {
-        return view('tasks.index');
-    })->name('tasks');
+    Route::get('/tasks', [TaskController::class, 'index'])->name('tasks');
+    Route::get('/tasks/create', [TaskController::class, 'create'])->name('tasks.create');
+    Route::post('/tasks', [TaskController::class, 'store'])->name('tasks.store');
+    Route::get('/tasks/{task}/edit', [TaskController::class, 'edit'])->name('tasks.edit');
+    Route::put('/tasks/{task}', [TaskController::class, 'update'])->name('tasks.update');
+    Route::delete('/tasks/{task}', [TaskController::class, 'destroy'])->name('tasks.destroy');
 
     Route::get('/tasks/{id}', function ($id) {
         return view('tasks.show', compact('id'));
@@ -68,20 +71,20 @@ Route::middleware(['auth'])->group(function () {
         return view('groups.create');
     })->name('groups.create');
 
-    Route::get('/files', fn() => 'File Manager')->name('files');
+    // File manager CRUD
+    Route::get('/files', [App\Http\Controllers\FileController::class, 'index'])->name('files');
+    Route::post('/files', [App\Http\Controllers\FileController::class, 'store'])->name('files.store');
+    Route::get('/files/{file}/download', [App\Http\Controllers\FileController::class, 'download'])->name('files.download');
+    Route::delete('/files/{file}', [App\Http\Controllers\FileController::class, 'destroy'])->name('files.destroy');
     Route::get('/profile', fn() => 'Profile')->name('profile');
 
     Route::get('/chat', function () {
         return view('chat'); // File: resources/views/chat.blade.php
     })->name('chat');
 
-    Route::get('/timeline', function () {
-        return view('timeline'); // File: resources/views/timeline.blade.php
-    })->name('timeline');
+    Route::get('/timeline', [DashboardController::class, 'timeline'])->name('timeline');
 
-    Route::get('/reports', function () {
-        return view('reports'); // File: resources/views/reports.blade.php
-    })->name('reports');
+    Route::get('/reports', [DashboardController::class, 'reports'])->name('reports');
 
     // Group Detail
     Route::get('/groups/{id}', function ($id) {
@@ -89,9 +92,9 @@ Route::middleware(['auth'])->group(function () {
     })->name('groups.show');
 
     // Profile
-    Route::get('/profile', function () {
-        return view('profile'); // File: resources/views/profile.blade.php
-    })->name('profile');
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile');
+    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
 
     // File Manager
     Route::get('/files', function () {

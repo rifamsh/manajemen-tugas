@@ -17,9 +17,9 @@
                 <p class="text-muted small mb-3"><i class="fas fa-briefcase me-1"></i> {{ Auth::user()->occupation ?? 'Project Contributor' }}</p>
                 
                 <div class="d-flex justify-content-center gap-2 mb-4">
-                    <button class="btn btn-primary btn-sm rounded-pill px-4 shadow-sm">
+                    <a href="{{ route('profile.edit') }}" class="btn btn-primary btn-sm rounded-pill px-4 shadow-sm">
                         <i class="fas fa-edit me-1"></i> Edit Profile
-                    </button>
+                    </a>
                     <form action="{{ route('logout') }}" method="POST" class="d-inline">
                         @csrf
                         <button type="submit" class="btn btn-outline-danger btn-sm rounded-pill px-4">

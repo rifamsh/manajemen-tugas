@@ -37,79 +37,40 @@
     </div>
 
     <div class="row g-4 mb-5">
-        <div class="col-md-4">
-            <div class="card-custom h-100 position-relative">
-                <div class="d-flex justify-content-between mb-3">
-                    <span class="badge bg-light text-secondary">Design</span>
-                    <i class="fas fa-ellipsis-v text-muted cursor-pointer"></i>
-                </div>
-                <h6 class="fw-bold mb-1">Website Redesign</h6>
-                <small class="text-muted d-block mb-3">Deadline: 20 March</small>
-                
-                <div class="d-flex justify-content-between align-items-center mb-2">
-                    <small class="fw-bold text-primary">30%</small>
-                </div>
-                <div class="progress progress-slim mb-3">
-                    <div class="progress-bar bg-primary" style="width: 30%"></div>
-                </div>
+        @forelse($projects as $project)
+            <div class="col-md-4">
+                <div class="card-custom h-100 position-relative">
+                    <div class="d-flex justify-content-between mb-3">
+                        <span class="badge bg-light text-secondary">{{ $project->category ?? 'General' }}</span>
+                        <i class="fas fa-ellipsis-v text-muted cursor-pointer"></i>
+                    </div>
+                    <h6 class="fw-bold mb-1">{{ $project->name }}</h6>
+                    <small class="text-muted d-block mb-3">Deadline: {{ $project->deadline ? $project->deadline->format('j M') : '-' }}</small>
+                    
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <small class="fw-bold text-primary">{{ $project->progress ?? 0 }}%</small>
+                    </div>
+                    <div class="progress progress-slim mb-3">
+                        <div class="progress-bar {{ $project->progress >= 75 ? 'bg-success' : ($project->progress >= 45 ? 'bg-warning' : 'bg-primary') }}" style="width: {{ $project->progress ?? 0 }}%"></div>
+                    </div>
 
-                <div class="avatar-group">
-                    <img src="https://i.pravatar.cc/150?img=1" alt="">
-                    <img src="https://i.pravatar.cc/150?img=2" alt="">
-                    <img src="https://i.pravatar.cc/150?img=3" alt="">
-                    <span class="small ms-2 text-muted fw-bold">+3</span>
+                    <div class="avatar-group">
+                        @foreach($project->members->take(3) as $member)
+                            <x-avatar :user="$member" :size="40" />
+                        @endforeach
+                        @if($project->members->count() > 3)
+                            <span class="small ms-2 text-muted fw-bold">+{{ $project->members->count() - 3 }}</span>
+                        @endif
+                    </div>
                 </div>
             </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="card-custom h-100">
-                <div class="d-flex justify-content-between mb-3">
-                    <span class="badge bg-light text-secondary">Dev</span>
-                    <i class="fas fa-ellipsis-v text-muted"></i>
-                </div>
-                <h6 class="fw-bold mb-1">Mobile App API</h6>
-                <small class="text-muted d-block mb-3">Deadline: 25 March</small>
-                
-                <div class="d-flex justify-content-between align-items-center mb-2">
-                    <small class="fw-bold text-warning">45%</small>
-                </div>
-                <div class="progress progress-slim mb-3">
-                    <div class="progress-bar bg-warning" style="width: 45%"></div>
-                </div>
-
-                <div class="avatar-group">
-                    <img src="https://i.pravatar.cc/150?img=4" alt="">
-                    <img src="https://i.pravatar.cc/150?img=5" alt="">
-                    <span class="small ms-2 text-muted fw-bold">+2</span>
+        @empty
+            <div class="col-12">
+                <div class="card-custom text-center py-5">
+                    <div class="text-muted">You have no active groups yet. Create one to get started.</div>
                 </div>
             </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="card-custom h-100">
-                <div class="d-flex justify-content-between mb-3">
-                    <span class="badge bg-light text-secondary">Marketing</span>
-                    <i class="fas fa-ellipsis-v text-muted"></i>
-                </div>
-                <h6 class="fw-bold mb-1">Q1 Marketing</h6>
-                <small class="text-muted d-block mb-3">Deadline: 30 March</small>
-                
-                <div class="d-flex justify-content-between align-items-center mb-2">
-                    <small class="fw-bold text-success">75%</small>
-                </div>
-                <div class="progress progress-slim mb-3">
-                    <div class="progress-bar bg-success" style="width: 75%"></div>
-                </div>
-
-                <div class="avatar-group">
-                    <img src="https://i.pravatar.cc/150?img=8" alt="">
-                    <img src="https://i.pravatar.cc/150?img=9" alt="">
-                    <img src="https://i.pravatar.cc/150?img=10" alt="">
-                    <span class="small ms-2 text-muted fw-bold">+6</span>
-                </div>
-            </div>
-        </div>
+        @endforelse
     </div>
 
     <h5 class="fw-bold mb-3">My Tasks</h5>
@@ -118,72 +79,78 @@
         <div class="col-md-4">
             <div class="kanban-col">
                 <div class="kanban-header">
-                    <span>To Do <span class="badge bg-white text-dark ms-1 shadow-sm">3</span></span>
+                    <span>To Do <span class="badge bg-white text-dark ms-1 shadow-sm">{{ $tasks_todo->count() }}</span></span>
                     <i class="fas fa-plus text-muted"></i>
                 </div>
 
-                <div class="kanban-item">
-                    <div class="d-flex justify-content-between mb-2">
-                        <span class="badge bg-danger bg-opacity-10 text-danger" style="font-size:0.65rem;">High</span>
-                        <i class="fas fa-ellipsis-h text-muted small"></i>
-                    </div>
-                    <h6 class="fs-6 fw-bold mb-2">Wireframe Login Page</h6>
-                    <div class="d-flex align-items-center text-muted small">
-                        <i class="far fa-clock me-1"></i> 2 Days left
-                    </div>
-                </div>
-
-                <div class="kanban-item">
-                     <div class="d-flex justify-content-between mb-2">
-                        <span class="badge bg-secondary bg-opacity-10 text-secondary" style="font-size:0.65rem;">Low</span>
-                        <i class="fas fa-ellipsis-h text-muted small"></i>
-                    </div>
-                    <h6 class="fs-6 fw-bold mb-2">Update Asset Icons</h6>
-                    <div class="d-flex align-items-center text-muted small">
-                        <i class="far fa-clock me-1"></i> 5 Days left
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="kanban-col">
-                <div class="kanban-header">
-                    <span>In Progress <span class="badge bg-white text-dark ms-1 shadow-sm">1</span></span>
-                    <i class="fas fa-plus text-muted"></i>
-                </div>
-
-                <div class="kanban-item border-start border-3 border-primary">
-                    <div class="d-flex justify-content-between mb-2">
-                        <span class="badge bg-primary bg-opacity-10 text-primary" style="font-size:0.65rem;">Medium</span>
-                        <i class="fas fa-ellipsis-h text-muted small"></i>
-                    </div>
-                    <h6 class="fs-6 fw-bold mb-2">Dashboard Layout</h6>
-                    <p class="text-muted small mb-2">Implementing CSS Grid for main layout...</p>
-                    <div class="d-flex justify-content-between align-items-center mt-3">
-                        <div class="avatar-group" style="transform: scale(0.8); transform-origin: left;">
-                             <img src="https://i.pravatar.cc/150?img=11" alt="">
+                @forelse($tasks_todo as $task)
+                    <div class="kanban-item">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="badge {{ $task->priority == 'High' ? 'bg-danger bg-opacity-10 text-danger' : ($task->priority == 'Medium' ? 'bg-primary bg-opacity-10 text-primary' : 'bg-secondary bg-opacity-10 text-secondary') }}" style="font-size:0.65rem;">{{ $task->priority }}</span>
+                            <i class="fas fa-ellipsis-h text-muted small"></i>
                         </div>
-                        <i class="fas fa-paperclip text-muted small"> 2</i>
+                        <h6 class="fs-6 fw-bold mb-2">{{ $task->title }}</h6>
+                        <div class="d-flex align-items-center text-muted small">
+                            <i class="far fa-clock me-1"></i>
+                            @if($task->deadline)
+                                {{ \Carbon\Carbon::parse($task->deadline)->diffForHumans() }}
+                            @else
+                                No deadline
+                            @endif
+                        </div>
                     </div>
-                </div>
+                @empty
+                    <div class="text-muted">No tasks in To Do.</div>
+                @endforelse
             </div>
         </div>
 
         <div class="col-md-4">
             <div class="kanban-col">
                 <div class="kanban-header">
-                    <span>Done <span class="badge bg-white text-dark ms-1 shadow-sm">2</span></span>
+                    <span>In Progress <span class="badge bg-white text-dark ms-1 shadow-sm">{{ $tasks_in_progress->count() }}</span></span>
                     <i class="fas fa-plus text-muted"></i>
                 </div>
 
-                <div class="kanban-item opacity-75">
-                    <div class="d-flex justify-content-between mb-2">
-                        <span class="badge bg-success bg-opacity-10 text-success" style="font-size:0.65rem;">Completed</span>
-                        <i class="fas fa-check-circle text-success small"></i>
+                @forelse($tasks_in_progress as $task)
+                    <div class="kanban-item border-start border-3 border-primary">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="badge bg-primary bg-opacity-10 text-primary" style="font-size:0.65rem;">{{ $task->priority }}</span>
+                            <i class="fas fa-ellipsis-h text-muted small"></i>
+                        </div>
+                        <h6 class="fs-6 fw-bold mb-2">{{ $task->title }}</h6>
+                        <p class="text-muted small mb-2">{{ \Illuminate\Support\Str::limit($task->description, 80) }}</p>
+                        <div class="d-flex justify-content-between align-items-center mt-3">
+                            <div class="avatar-group" style="transform: scale(0.8); transform-origin: left;">
+                                   <x-avatar :user="$task->assignee" :size="40" />
+                               </div>
+                               <i class="fas fa-paperclip text-muted small"> {{ $task->files->count() ?? 0 }}</i>
+                        </div>
                     </div>
-                    <h6 class="fs-6 fw-bold mb-2 text-decoration-line-through text-muted">Client Meeting</h6>
+                @empty
+                    <div class="text-muted">No tasks in progress.</div>
+                @endforelse
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="kanban-col">
+                <div class="kanban-header">
+                    <span>Done <span class="badge bg-white text-dark ms-1 shadow-sm">{{ $tasks_done->count() }}</span></span>
+                    <i class="fas fa-plus text-muted"></i>
                 </div>
+
+                @forelse($tasks_done as $task)
+                    <div class="kanban-item opacity-75">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="badge bg-success bg-opacity-10 text-success" style="font-size:0.65rem;">Completed</span>
+                            <i class="fas fa-check-circle text-success small"></i>
+                        </div>
+                        <h6 class="fs-6 fw-bold mb-2 text-decoration-line-through text-muted">{{ $task->title }}</h6>
+                    </div>
+                @empty
+                    <div class="text-muted">No completed tasks.</div>
+                @endforelse
             </div>
         </div>
 

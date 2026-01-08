@@ -27,7 +27,7 @@
                 </div>
                 <span class="small text-white-50">+12%</span>
             </div>
-            <h3 class="fw-bold mb-0">48</h3>
+            <h3 class="fw-bold mb-0">{{ $completed }}</h3>
             <small class="opacity-75">Tasks Completed</small>
         </div>
     </div>
@@ -39,7 +39,7 @@
                 </div>
                 <span class="small text-success fw-bold">+5.2%</span>
             </div>
-            <h3 class="fw-bold mb-0 text-dark">85%</h3>
+            <h3 class="fw-bold mb-0 text-dark">{{ $efficiency }}%</h3>
             <small class="text-muted">Efficiency Rate</small>
         </div>
     </div>
@@ -50,7 +50,7 @@
                     <i class="fas fa-project-diagram"></i>
                 </div>
             </div>
-            <h3 class="fw-bold mb-0 text-dark">6</h3>
+            <h3 class="fw-bold mb-0 text-dark">{{ $activeProjects }}</h3>
             <small class="text-muted">Active Projects</small>
         </div>
     </div>
@@ -61,7 +61,7 @@
                     <i class="fas fa-exclamation-circle"></i>
                 </div>
             </div>
-            <h3 class="fw-bold mb-0 text-dark">3</h3>
+            <h3 class="fw-bold mb-0 text-dark">{{ $overdue }}</h3>
             <small class="text-muted">Overdue Tasks</small>
         </div>
     </div>
@@ -91,8 +91,8 @@
                 <canvas id="statusChart" style="max-height: 220px;"></canvas>
             </div>
             <div class="mt-4 row g-2">
-                <div class="col-6 text-start"><small class="text-muted d-block"><i class="fas fa-circle text-primary me-1"></i> Done</small><h6 class="fw-bold">65%</h6></div>
-                <div class="col-6 text-start"><small class="text-muted d-block"><i class="fas fa-circle text-info me-1"></i> In Progress</small><h6 class="fw-bold">25%</h6></div>
+                <div class="col-6 text-start"><small class="text-muted d-block"><i class="fas fa-circle text-primary me-1"></i> Done</small><h6 class="fw-bold">{{ $pctDone }}%</h6></div>
+                <div class="col-6 text-start"><small class="text-muted d-block"><i class="fas fa-circle text-info me-1"></i> In Progress</small><h6 class="fw-bold">{{ $pctInProgress }}%</h6></div>
             </div>
         </div>
     </div>
@@ -113,26 +113,30 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td class="px-3 fw-bold">Website Redesign</td>
-                    <td style="width: 30%;">
-                        <div class="progress rounded-pill" style="height: 6px;">
-                            <div class="progress-bar bg-primary" style="width: 75%"></div>
-                        </div>
-                    </td>
-                    <td><span class="badge bg-success bg-opacity-10 text-success rounded-pill px-3">On Track</span></td>
-                    <td class="text-muted small">20 Mar 2026</td>
-                </tr>
-                <tr>
-                    <td class="px-3 fw-bold">Mobile App API</td>
-                    <td>
-                        <div class="progress rounded-pill" style="height: 6px;">
-                            <div class="progress-bar bg-warning" style="width: 30%"></div>
-                        </div>
-                    </td>
-                    <td><span class="badge bg-warning bg-opacity-10 text-warning rounded-pill px-3">At Risk</span></td>
-                    <td class="text-muted small">05 Apr 2026</td>
-                </tr>
+                @forelse($projectsHealth as $p)
+                    <tr>
+                        <td class="px-3 fw-bold">{{ $p->name }}</td>
+                        <td style="width: 30%;">
+                            <div class="progress rounded-pill" style="height: 6px;">
+                                <div class="progress-bar {{ $p->progress >= 75 ? 'bg-primary' : ($p->progress >= 45 ? 'bg-warning' : 'bg-secondary') }}" style="width: {{ $p->progress ?? 0 }}%"></div>
+                            </div>
+                        </td>
+                        <td>
+                            @if($p->progress >= 75)
+                                <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-3">On Track</span>
+                            @elseif($p->progress >= 45)
+                                <span class="badge bg-warning bg-opacity-10 text-warning rounded-pill px-3">At Risk</span>
+                            @else
+                                <span class="badge bg-secondary bg-opacity-10 text-secondary rounded-pill px-3">Stalled</span>
+                            @endif
+                        </td>
+                        <td class="text-muted small">{{ $p->deadline ? $p->deadline->format('d M Y') : '-' }}</td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="4" class="text-center text-muted">No projects to show.</td>
+                    </tr>
+                @endforelse
             </tbody>
         </table>
     </div>
@@ -145,10 +149,10 @@
     new Chart(ctxProd, {
         type: 'line',
         data: {
-            labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+            labels: {!! json_encode($trendLabels) !!},
             datasets: [{
                 label: 'Completed Tasks',
-                data: [12, 19, 15, 25],
+                data: {!! json_encode($trendData) !!},
                 borderColor: '#0d6efd',
                 backgroundColor: 'rgba(13, 110, 253, 0.05)',
                 fill: true,
@@ -174,10 +178,10 @@
     const ctxStatus = document.getElementById('statusChart').getContext('2d');
     new Chart(ctxStatus, {
         type: 'doughnut',
-        data: {
+            data: {
             labels: ['Done', 'In Progress', 'Todo'],
             datasets: [{
-                data: [65, 25, 10],
+                data: [{{ $pctDone }}, {{ $pctInProgress }}, {{ 100 - $pctDone - $pctInProgress }}],
                 backgroundColor: ['#0d6efd', '#0dcaf0', '#f8f9fa'],
                 borderWidth: 0,
                 hoverOffset: 4

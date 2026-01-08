@@ -40,6 +40,12 @@ class Task extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
+    // Files yang terkait dengan Task (attachments)
+    public function files()
+    {
+        return $this->hasMany(File::class);
+    }
+
     // --- HELPER (Untuk Tampilan Dashboard) ---
 
     // 1. Warna Badge Prioritas

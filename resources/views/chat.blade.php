@@ -60,7 +60,7 @@
             <div class="flex-grow-1 overflow-auto p-4 d-flex flex-column gap-3">
                 
                 <div class="d-flex align-items-start" style="max-width: 80%;">
-                    <img src="https://i.pravatar.cc/150?img=1" class="rounded-circle me-2" width="30">
+                    @include('components.avatar', ['name' => 'Chat User', 'size' => 30])
                     <div>
                         <div class="bg-white p-3 rounded-4 shadow-sm border">
                             <small class="fw-bold text-primary d-block mb-1">Budi Setiawan</small>
@@ -83,7 +83,7 @@
                 </div>
 
                 <div class="d-flex align-items-start" style="max-width: 80%;">
-                    <img src="https://i.pravatar.cc/150?img=1" class="rounded-circle me-2" width="30">
+                    @include('components.avatar', ['name' => 'Chat User', 'size' => 30])
                     <div>
                         <div class="bg-white p-3 rounded-4 shadow-sm border">
                             <div class="d-flex align-items-center p-2 bg-light rounded-3 mb-2 border">

@@ -1,8 +1,8 @@
 @extends('layouts.app')
 @section('content')
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h4 class="fw-bold">Task Board - Website Redesign</h4>
-    <button class="btn btn-primary rounded-pill"><i class="fas fa-plus me-2"></i>New Task</button>
+    <h4 class="fw-bold">Task Board</h4>
+    <a href="{{ route('tasks.create') }}" class="btn btn-primary rounded-pill"><i class="fas fa-plus me-2"></i>New Task</a>
 </div>
 
 <div class="row g-3">
@@ -12,21 +12,40 @@
             <h6 class="fw-bold mb-3 d-flex justify-content-between">
                 {{ $label }} <span class="badge bg-white text-dark shadow-sm">3</span>
             </h6>
-            
+            @php $items = $tasks->get($status, collect()); @endphp
+            @forelse($items as $task)
             <div class="card border-0 shadow-sm rounded-3 mb-3 p-3">
                 <div class="d-flex justify-content-between mb-2">
-                    <span class="badge bg-danger bg-opacity-10 text-danger" style="font-size: 0.7rem;">High Priority</span>
-                    <i class="fas fa-ellipsis-h text-muted small"></i>
+                    <span class="badge bg-{{ $task->priority_color }} bg-opacity-10 text-{{ $task->priority_color }}" style="font-size: 0.7rem;">{{ $task->priority }} Priority</span>
+                    <div class="dropdown">
+                        <a href="#" data-bs-toggle="dropdown"><i class="fas fa-ellipsis-h text-muted small"></i></a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="{{ route('tasks.edit', $task) }}">Edit</a></li>
+                            <li>
+                                <form action="{{ route('tasks.destroy', $task) }}" method="POST" onsubmit="return confirm('Delete task?')">
+                                    @csrf @method('DELETE')
+                                    <button class="dropdown-item text-danger">Delete</button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-                <h6 class="fw-bold small mb-2">Design UI for Login Page</h6>
-                <p class="text-muted mb-3" style="font-size: 0.75rem;">Create a clean and modern login interface.</p>
+                <h6 class="fw-bold small mb-2">{{ $task->title }}</h6>
+                <p class="text-muted mb-3" style="font-size: 0.75rem;">{{ \Illuminate\Support\Str::limit($task->description, 120) }}</p>
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="avatar-group">
-                        <img src="https://i.pravatar.cc/100" class="rounded-circle border border-2 border-white" width="25">
+                        @if(isset($task->assignee) && $task->assignee)
+                            @include('components.avatar', ['user' => $task->assignee, 'size' => 30])
+                        @else
+                            @include('components.avatar', ['name' => 'User', 'size' => 30])
+                        @endif
                     </div>
-                    <small class="text-muted"><i class="far fa-clock me-1"></i> 20 Mar</small>
+                    <small class="text-muted"><i class="far fa-clock me-1"></i> {{ $task->deadline? $task->deadline->format('d M') : '-' }}</small>
                 </div>
             </div>
+            @empty
+                <div class="text-muted small">No tasks</div>
+            @endforelse
         </div>
     </div>
     @endforeach
