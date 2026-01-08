@@ -15,24 +15,24 @@ class DashboardController extends Controller
     // Halaman Chat
     public function chat()
     {
-        return view('chat.index');
+        return view('chat');
     }
 
     // Task Board / Kanban
     public function taskBoard()
     {
-        return view('tasks.board');
+        return view('tasks');
     }
 
     // Timeline
     public function timeline()
     {
-        return view('timeline.index');
+        return view('timeline');
     }
 
     // Reports
     public function reports()
     {
-        return view('reports.index');
+        return view('reports');
     }
 }

@@ -45,7 +45,7 @@ Route::post('/logout', [AuthController::class, 'logout'])
     ->name('logout');
 
 // ================= PROTECTED ROUTES =================
-
+//
 Route::middleware(['auth'])->group(function () {
 
     Route::get('/dashboard', function () {
@@ -54,7 +54,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/tasks', function () {
         return view('tasks.index');
-    })->name('tasks.index');
+    })->name('tasks');
 
     Route::get('/tasks/{id}', function ($id) {
         return view('tasks.show', compact('id'));
@@ -73,15 +73,15 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/chat', function () {
         return view('chat'); // File: resources/views/chat.blade.php
-    })->name('chat.index');
+    })->name('chat');
 
     Route::get('/timeline', function () {
         return view('timeline'); // File: resources/views/timeline.blade.php
-    })->name('timeline.index');
+    })->name('timeline');
 
     Route::get('/reports', function () {
         return view('reports'); // File: resources/views/reports.blade.php
-    })->name('reports.index');
+    })->name('reports');
 
     // Group Detail
     Route::get('/groups/{id}', function ($id) {
@@ -91,10 +91,10 @@ Route::middleware(['auth'])->group(function () {
     // Profile
     Route::get('/profile', function () {
         return view('profile'); // File: resources/views/profile.blade.php
-    })->name('profile.index');
+    })->name('profile');
 
     // File Manager
     Route::get('/files', function () {
         return view('files'); // File: resources/views/files.blade.php
-    })->name('files.index');
+    })->name('files');
 });

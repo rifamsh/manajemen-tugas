@@ -153,23 +153,34 @@
 
         <p class="section-title ps-2">MENU</p>
         <ul class="nav flex-column">
-            <li class="nav-item">
-                <a href="#" class="nav-link active"><i class="fas fa-th-large"></i> Dashboard</a>
-            </li>
-            <li class="nav-item">
-                <a href="#" class="nav-link"><i class="fas fa-comment-dots"></i> Chats</a>
-            </li>
-            <li class="nav-item">
-                <a href="#" class="nav-link"><i class="fas fa-clipboard-list"></i> Task Board</a>
-            </li>
-            <li class="nav-item">
-                <a href="#" class="nav-link"><i class="fas fa-stream"></i> Timeline</a>
-            </li>
-            <li class="nav-item">
-                <a href="#" class="nav-link"><i class="fas fa-chart-pie"></i> Reports</a>
-            </li>
-        </ul>
-
+    <li class="nav-item">
+        <a href="{{ route('dashboard') }}" 
+           class="nav-link {{ Route::is('dashboard') ? 'active' : '' }}">
+            <i class="fas fa-th-large"></i> Dashboard
+        </a>
+    </li>
+    <li class="nav-item">
+        <a href="{{ route('chat') }}" class="nav-link {{ Route::is('chat') ? 'active' : '' }}">
+            <i class="fas fa-comment-dots"></i> Chats
+        </a>
+    </li>
+    <li class="nav-item">
+        <a href="{{ route('tasks') }}" 
+           class="nav-link {{ Route::is('tasks*') ? 'active' : '' }}">
+            <i class="fas fa-clipboard-list"></i> Task Board
+        </a>
+    </li>
+    <li class="nav-item">
+        <a href="{{ route('timeline') }}" class="nav-link {{ Route::is('timeline') ? 'active' : '' }}">
+            <i class="fas fa-stream"></i> Timeline
+        </a>
+    </li>
+    <li class="nav-item">
+        <a href="{{ route('reports') }}" class="nav-link {{ Route::is('reports.*') ? 'active' : '' }}">
+            <i class="fas fa-chart-pie"></i> Reports
+        </a>
+    </li>
+</ul>
         <p class="section-title ps-2 mt-4">FILE MANAGER</p>
         <ul class="nav flex-column">
             <li class="nav-item"><a href="#" class="nav-link"><i class="far fa-folder text-warning"></i> Folder Group A</a></li>

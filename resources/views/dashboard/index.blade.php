@@ -2,6 +2,7 @@
 
 @section('content')
 
+
     <div class="row mb-4 align-items-center">
         <div class="col-md-8">
             <div class="position-relative">
@@ -17,8 +18,8 @@
     <div class="card welcome-card mb-5 shadow-lg">
         <div class="d-flex justify-content-between align-items-center position-relative" style="z-index: 2;">
             <div>
-                <h2 class="fw-bold mb-1">Welcome, Muhammad Sumbul!</h2>
-                <p class="text-white-50 mb-4">Here's what's happening with your projects today.</p>
+                <h2 class="fw-bold mb-1">Welcome, {{ auth()->user()->name }}</h2>
+                <p class="text-white-50 mb-4">Here's what's happex`ning with your projects today.</p>
                 
                 <button class="btn btn-light text-primary fw-bold px-4 py-2 rounded-pill shadow-sm">
                     <i class="fas fa-plus me-2"></i> Create New Group
