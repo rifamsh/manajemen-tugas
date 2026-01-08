@@ -1,9 +1,9 @@
 <div class="card border-0 shadow-sm rounded-4 p-4">
     <h5 class="fw-bold mb-4">Project Timeline</h5>
-    <div class="position-relative ps-4 border-start border-primary" style="margin-left: 10px;">
+    <div class="position-relative ps-4 border-start border-primary border-2">
         @foreach($tasks as $task)
         <div class="mb-5 position-relative">
-            <div class="position-absolute bg-primary rounded-circle shadow-sm" style="width: 15px; height: 15px; left: -32px; top: 5px; border: 3px solid white;"></div>
+            <div class="position-absolute bg-primary rounded-circle shadow-sm" style="width: 15px; height: 15px; left: -8px; top: 5px; border: 3px solid white; z-index: 1;"></div>
             <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center">
                 <div>
                     <span class="text-primary fw-bold small text-uppercase">{{ $task->due_time }}</span>
