@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
-abstract class Controller
+use Illuminate\Http\Request;
+use App\Models\Task;
+
+class TaskController extends Controller
 {
     //
 }
