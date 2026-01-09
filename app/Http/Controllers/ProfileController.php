@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -9,13 +11,13 @@ class ProfileController extends Controller
 {
     public function edit()
     {
-        $user = auth()->user();
+        $user = Auth::user();
         return view('profile.edit', compact('user'));
     }
 
     public function update(Request $request)
     {
-        $user = auth()->user();
+        $user = Auth::user();
 
         $data = $request->validate([
             'name' => 'required|string|max:255',
@@ -35,6 +37,7 @@ class ProfileController extends Controller
             $data['avatar'] = $path;
         }
 
+        $user = \App\Models\User::find(Auth::id());
         $user->update($data);
 
         return redirect()->route('profile')->with('success', 'Profile updated');

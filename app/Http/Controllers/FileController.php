@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\File as FileModel;
 use App\Models\Task;
@@ -12,7 +13,7 @@ class FileController extends Controller
     // Tampilkan list file milik user dan form upload
     public function index()
     {
-        $user = auth()->user();
+        $user = Auth::user();
 
         // Ambil tugas milik user untuk dropdown (yang sudah dia kerjakan)
         $tasks = Task::where('user_id', $user->id)->orderBy('title')->get();
@@ -31,10 +32,10 @@ class FileController extends Controller
             'file' => 'required|file|max:5120',
         ]);
 
-        $user = auth()->user();
+        $user = Auth::user();
         $uploaded = $request->file('file');
 
-        $filename = time().'_'.preg_replace('/[^A-Za-z0-9_\-\.]/', '_', $uploaded->getClientOriginalName());
+        $filename = time() . '_' . preg_replace('/[^A-Za-z0-9_\-\.]/', '_', $uploaded->getClientOriginalName());
         $path = $uploaded->storeAs('files', $filename, 'public');
 
         $file = FileModel::create([
@@ -57,7 +58,7 @@ class FileController extends Controller
             abort(404);
         }
 
-        return Storage::disk('public')->download($file->file_path, $file->file_name);
+        return response()->download(storage_path('app/public/' . $file->file_path), $file->file_name);
     }
 
     // Hapus file
@@ -76,23 +77,9 @@ class FileController extends Controller
 
     protected function authorizeAction(FileModel $file)
     {
-        $user = auth()->user();
+        $user = Auth::user();
         if ($file->user_id !== $user->id) {
             abort(403);
         }
-    }
-}
-<?php
-
-namespace App\Http\Controllers;
-
-use Illuminate\Http\Request;
-
-class FileController extends Controller
-{
-    public function index()
-    {
-        // Menampilkan halaman daftar file / assets
-        return view('files.index');
     }
 }

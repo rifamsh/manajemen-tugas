@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\Task;
 use App\Models\Project;
@@ -33,7 +34,7 @@ class TaskController extends Controller
             'due_time' => 'nullable',
         ]);
 
-        $data['user_id'] = auth()->id() ?? 1;
+        $data['user_id'] = Auth::id() ?: 1;
 
         // If no project_id provided, attach to an existing project or create a minimal one
         if (empty($data['project_id'])) {
@@ -79,7 +80,7 @@ class TaskController extends Controller
             $project = Project::first();
             if (! $project) {
                 $project = Project::create([
-                    'user_id' => auth()->id() ?? 1,
+                    'user_id' => Auth::id() ?: 1,
                     'name' => 'Default Project',
                     'description' => 'Auto-created project for tasks',
                     'category' => 'General',

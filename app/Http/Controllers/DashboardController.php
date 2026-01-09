@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\Project;
 use App\Models\Task;
@@ -11,7 +12,7 @@ class DashboardController extends Controller
     // Dashboard utama
     public function index()
     {
-        $user = auth()->user();
+        $user = Auth::user();
 
         // Projects where the user is a member or leader (limit 3 for the summary cards)
         $projects = Project::whereHas('members', function ($q) use ($user) {
@@ -51,7 +52,7 @@ class DashboardController extends Controller
     // Reports
     public function reports()
     {
-        $user = auth()->user();
+        $user = Auth::user();
 
         // Counts
         $completed = Task::where('user_id', $user->id)->where('status', 'done')->count();
