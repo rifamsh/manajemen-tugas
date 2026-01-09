@@ -1,6 +1,10 @@
 👑 TUGAS 1 — LEADER + AUTH & INTEGRASI
 
 (KAMU, TETAP IKUT NGODING)
+# 📌 Task Manager Web Application
+
+Aplikasi **Task Manager berbasis Web** yang digunakan untuk mengelola **project, task, anggota tim, komentar, dan file** dalam satu sistem terintegrasi.  
+Project ini dikembangkan sebagai **tugas mata kuliah Pemrograman Berbasis Web**.
 
 Fokus
 
