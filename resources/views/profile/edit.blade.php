@@ -24,8 +24,8 @@
                             <i class="fas fa-edit me-1"></i> Change Avatar
                             <input type="file" name="avatar" class="d-none" onchange="this.form.submit()">
                         </label>
-                        <a href="{{ route('login') }}" class="btn btn-outline-secondary btn-sm rounded-pill px-4">
-                            <i class="fas fa-times me-1"></i> Cancel
+                        <a href="{{ route('login') }}" class="btn btn-danger btn-sm rounded-pill px-4 shadow-sm">
+                            <i class="fas fa-sign-out-alt me-1"></i> Logout
                         </a>
                     </form>
                 </div>

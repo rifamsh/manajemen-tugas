@@ -217,7 +217,7 @@
             <div class="mb-4">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h6 class="fw-bold mb-0">March 2026</h6>
-                    <button class="btn btn-sm btn-primary rounded-pill px-3 py-1 text-white" style="font-size: 0.7rem;">+ Add Task</button>
+                    <a href="{{ route('tasks.create') }}" class="btn btn-sm btn-primary rounded-pill px-3 py-1 text-white"><i class="font-size: 0.7rem;"></i>+ New Task</a>
                 </div>
                 <div class="d-flex justify-content-between">
                     <div class="calendar-day">
@@ -265,9 +265,6 @@
                         </div>
                     </div>
 
-                    <div class="mt-2">
-                        <a href="{{ route('tasks') }}" class="btn btn-sm btn-outline-primary">Add a task</a>
-                    </div>
                 @else
                     @foreach($todayTasks as $task)
                         <div class="timeline-item">
