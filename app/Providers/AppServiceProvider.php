@@ -28,5 +28,8 @@ class AppServiceProvider extends ServiceProvider
             $todayTasks = Task::whereDate('deadline', $today)->orderBy('due_time')->get();
             $view->with('todayTasks', $todayTasks);
         });
+        if ($this->app->environment('production')) {
+            \URL::forceScheme('https');
+        }
     }
 }
