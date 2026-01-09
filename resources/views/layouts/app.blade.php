@@ -203,7 +203,7 @@
         <aside class="sidebar-right d-none d-xl-block">
             <div class="d-flex align-items-center mb-5">
                 <a href="{{ route('profile') }}" class="d-flex align-items-center text-decoration-none text-dark">
-                    <x-avatar :user="auth()->user()" :size="50" />
+                    avatar :user="auth()->user()" :size="50" />
                     <div class="ms-3">
                         <div class="fw-bold">{{ auth()->user()->name }}</div>
                         <small class="text-muted d-block">Mahasiswa</small>

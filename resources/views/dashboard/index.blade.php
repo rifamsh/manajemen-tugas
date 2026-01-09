@@ -56,7 +56,7 @@
 
                     <div class="avatar-group">
                         @foreach($project->members->take(3) as $member)
-                            <x-avatar :user="$member" :size="40" />
+                            avatar :user="$member" :size="40" />
                         @endforeach
                         @if($project->members->count() > 3)
                             <span class="small ms-2 text-muted fw-bold">+{{ $project->members->count() - 3 }}</span>
@@ -122,7 +122,7 @@
                         <p class="text-muted small mb-2">{{ \Illuminate\Support\Str::limit($task->description, 80) }}</p>
                         <div class="d-flex justify-content-between align-items-center mt-3">
                             <div class="avatar-group" style="transform: scale(0.8); transform-origin: left;">
-                                   <x-avatar :user="$task->assignee" :size="40" />
+                                   avatar :user="$task->assignee" :size="40" />
                                </div>
                                <i class="fas fa-paperclip text-muted small"> {{ $task->files->count() ?? 0 }}</i>
                         </div>
