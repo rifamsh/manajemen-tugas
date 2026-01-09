@@ -1,90 +1,139 @@
+👑 TUGAS 1 — LEADER + AUTH & INTEGRASI
+
+(KAMU, TETAP IKUT NGODING)
 # 📌 Task Manager Web Application
 
 Aplikasi **Task Manager berbasis Web** yang digunakan untuk mengelola **project, task, anggota tim, komentar, dan file** dalam satu sistem terintegrasi.  
 Project ini dikembangkan sebagai **tugas mata kuliah Pemrograman Berbasis Web**.
 
----
+Fokus
 
-## 👥 Tim Pengembang
+Setup Laravel
 
-| Nama           | Peran                  |
-| -------------- | ---------------------- |
-| (Maulana Arif) | Leader Project / Model |
-| (Rhista)       | view                   |
-| (Dika)         | View                   |
-| (Hilma)        | Controller             |
-| (Rizky)        | Controller             |
-| (Zilmie)       | Model                  |
+Auth (login/register)
 
----
+Integrasi semua fitur
 
-## 🎯 Tujuan Aplikasi
+Merge PR
 
--   Mengelola project secara terstruktur
--   Membagi tugas (task) kepada anggota tim
--   Memantau status pekerjaan (To Do, In Progress, Done)
--   Menyediakan kolaborasi melalui komentar
--   Menyimpan file pendukung project
+FILE YANG BOLEH DISENTUH
+app/Models/User.php
+database/migrations/_users_
+resources/views/auth/
+resources/views/layouts/app.blade.php
+README.md
+CONTRIBUTING.md
 
----
+❌ TIDAK menyentuh:
 
-## 🚀 Fitur Utama
+ProjectController
+TaskController
+CommentController
 
--   🔐 Authentication (Login & Register)
--   📁 Manajemen Project
--   📝 Manajemen Task
--   👥 Project Team (Leader & Member)
--   💬 Comment pada Task
--   📎 Upload File
--   📊 Status Task (To Do, Process, Done)
+🌿 Branch:
 
----
+feature/auth-setup
 
-## 🧩 Teknologi yang Digunakan
+👤 TUGAS 2 — PROJECT (CRUD)
 
--   **Framework**: Laravel 11
--   **Bahasa Pemrograman**: PHP
--   **Database**: MySQL
--   **Frontend**: Blade Template
--   **Version Control**: Git & GitHub
+AMAN karena berdiri sendiri
 
----
+FILE
+app/Models/Project.php
+app/Http/Controllers/ProjectController.php
+database/migrations/_projects_
+resources/views/projects/
 
-## 🗂️ Struktur Database (ERD)
+🌿 Branch:
 
-Relasi database dirancang menggunakan **Entity Relationship Diagram (ERD)** dengan tabel utama:
+feature/project
 
--   users
--   projects
--   project_teams
--   tasks
--   comments
--   files
+🚫 Tidak menyentuh task / comment
 
-Relasi utama:
+👤 TUGAS 3 — TASK (CRUD + DEADLINE)
+FILE
+app/Models/Task.php
+app/Http/Controllers/TaskController.php
+database/migrations/_tasks_
+resources/views/tasks/
 
--   User dapat memiliki banyak Project
--   Project memiliki banyak Task
--   Task dapat memiliki banyak Comment dan File
--   Project memiliki banyak anggota (many-to-many)
+🌿 Branch:
 
----
+feature/task
 
-## 📂 Struktur Folder Penting
+🚫 Tidak menyentuh project & comment
 
-```text
-app/
-├── Models/
-│   ├── User.php
-│   ├── Project.php
-│   ├── ProjectTeam.php
-│   ├── Task.php
-│   ├── Comment.php
-│   └── File.php
-│
-└── Http/
-    └── Controllers/
-        ├── ProjectController.php
-        ├── TaskController.php
-        └── CommentController.php
-```
+👤 TUGAS 4 — STATUS TUGAS
+
+Hanya EXTEND task, bukan rewrite
+
+FILE (SANGAT TERBATAS)
+database/migrations/_add_status_
+resources/views/tasks/index.blade.php
+
+⚠️ HANYA TAMBAH, bukan hapus logic task
+
+🌿 Branch:
+
+feature/task-status
+
+👤 TUGAS 5 — KOMENTAR
+
+Berdiri sendiri
+
+FILE
+app/Models/Comment.php
+app/Http/Controllers/CommentController.php
+database/migrations/_comments_
+resources/views/tasks/show.blade.php
+
+🌿 Branch:
+
+feature/comment
+
+🚫 Tidak menyentuh TaskController utama
+
+👤 TUGAS 6 — UI & LAYOUT
+
+PALING AMAN karena frontend-only
+
+FILE
+resources/views/layouts/
+resources/views/components/
+resources/css/
+resources/js/
+
+🌿 Branch:
+
+feature/ui
+
+🚫 Tidak menyentuh logic backend
+
+🧠 KUNCI AGAR GIT KELIHATAN RAPI
+✅ Aturan File Emas
+File Siapa
+routes/web.php LEADER
+.env TIDAK ADA
+User.php LEADER
+Controller lain MASING-MASING
+🔁 ALUR KERJA SEMUA ANGGOTA (TERMASUK LEADER)
+git checkout develop
+git pull origin develop
+git checkout -b feature/nama-fitur
+
+Kerja ➜ commit ➜ push ➜ PR ➜ leader merge
+
+🧾 CONTOH COMMIT MESSAGE (BIAR RAPI)
+
+✅ BENAR:
+
+Add project CRUD
+Add task deadline field
+Add comment feature
+Update task status badge
+
+❌ SALAH:
+
+fix
+update
+coba-coba
