@@ -10,12 +10,12 @@
     </header>
 
     @if(Route::has('profile.destroy'))
-        danger-button
+        <x-danger-button
             x-data=""
             x-on:click.prevent="$dispatch('open-modal', 'confirm-user-deletion')"
-        >{{ __('Delete Account') }}danger-button>
+        >{{ __('Delete Account') }}</x-danger-button>
 
-        modal name="confirm-user-deletion" :show="$errors->userDeletion->isNotEmpty()" focusable>
+        <x-modal name="confirm-user-deletion" :show="$errors->userDeletion->isNotEmpty()" focusable>
             <form method="post" action="{{ route('profile.destroy') }}" class="p-6">
                 @csrf
                 @method('delete')
@@ -29,9 +29,9 @@
                 </p>
 
                 <div class="mt-6">
-                    input-label for="password" value="{{ __('Password') }}" class="sr-only" />
+                    <x-input-label for="password" value="{{ __('Password') }}" class="sr-only" />
 
-                    text-input
+                    <x-text-input
                         id="password"
                         name="password"
                         type="password"
@@ -39,20 +39,20 @@
                         placeholder="{{ __('Password') }}"
                     />
 
-                    input-error :messages="$errors->userDeletion->get('password')" class="mt-2" />
+                    <x-input-error :messages="$errors->userDeletion->get('password')" class="mt-2" />
                 </div>
 
                 <div class="mt-6 flex justify-end">
-                    secondary-button x-on:click="$dispatch('close')">
+                    <x-secondary-button x-on:click="$dispatch('close')">
                         {{ __('Cancel') }}
-                    secondary-button>
+                    </x-secondary-button>
 
-                    danger-button class="ms-3">
+                    <x-danger-button class="ms-3">
                         {{ __('Delete Account') }}
-                    danger-button>
+                    </x-danger-button>
                 </div>
             </form>
-        modal>
+        </x-modal>
     @else
         <p class="text-muted">Account deletion is not available in this installation.</p>
     @endif

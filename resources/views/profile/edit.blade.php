@@ -7,7 +7,7 @@
             <div class="bg-primary" style="height: 140px; background: linear-gradient(45deg, #0d6efd, #0dcaf0);"></div>
             <div class="card-body text-center" style="margin-top: -70px;">
                 <div class="position-relative d-inline-block mb-3">
-                    avatar :user="$user" :size="130" />
+                    <x-avatar :user="$user" :size="130" />
                     <span class="position-absolute bottom-0 end-0 bg-success border border-3 border-white p-2 rounded-circle" title="Online"></span>
                 </div>
                 

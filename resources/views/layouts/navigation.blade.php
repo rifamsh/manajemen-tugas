@@ -10,16 +10,16 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
-                    nav-link>
+                    </x-nav-link>
                 </div>
             </div>
 
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-6">
-                dropdown align="right" width="48">
-                    slot name="trigger">
+                <x-dropdown align="right" width="48">
+                    <x-slot name="trigger">
                         <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
                             <div>{{ Auth::user()->name }}</div>
 
@@ -29,25 +29,25 @@
                                 </svg>
                             </div>
                         </button>
-                    slot>
+                    </x-slot>
 
-                    slot name="content">
-                        dropdown-link :href="route('profile.edit')">
+                    <x-slot name="content">
+                        <x-dropdown-link :href="route('profile.edit')">
                             {{ __('Profile') }}
-                        dropdown-link>
+                        </x-dropdown-link>
 
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
 
-                            dropdown-link :href="route('logout')"
+                            <x-dropdown-link :href="route('logout')"
                                     onclick="event.preventDefault();
                                                 this.closest('form').submit();">
                                 {{ __('Log Out') }}
-                            dropdown-link>
+                            </x-dropdown-link>
                         </form>
-                    slot>
-                dropdown>
+                    </x-slot>
+                </x-dropdown>
             </div>
 
             <!-- Hamburger -->
@@ -65,9 +65,9 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
-            responsive-nav-link>
+            </x-responsive-nav-link>
         </div>
 
         <!-- Responsive Settings Options -->
@@ -78,19 +78,19 @@
             </div>
 
             <div class="mt-3 space-y-1">
-                responsive-nav-link :href="route('profile.edit')">
+                <x-responsive-nav-link :href="route('profile.edit')">
                     {{ __('Profile') }}
-                responsive-nav-link>
+                </x-responsive-nav-link>
 
                 <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
 
-                    responsive-nav-link :href="route('logout')"
+                    <x-responsive-nav-link :href="route('logout')"
                             onclick="event.preventDefault();
                                         this.closest('form').submit();">
                         {{ __('Log Out') }}
-                    responsive-nav-link>
+                    </x-responsive-nav-link>
                 </form>
             </div>
         </div>
