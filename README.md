@@ -1,139 +1,100 @@
-👑 TUGAS 1 — LEADER + AUTH & INTEGRASI
+# 🚀 CollaboTask - Collaboration & Task Management System
 
-(KAMU, TETAP IKUT NGODING)
-# 📌 Task Manager Web Application
+**CollaboTask** adalah platform manajemen proyek berbasis web yang memungkinkan tim untuk bekerja sama dalam satu wadah. Aplikasi ini dirancang untuk mempermudah pembagian tugas (Task Board), pemantauan progres proyek, dan pengelolaan anggota tim secara real-time.
 
-Aplikasi **Task Manager berbasis Web** yang digunakan untuk mengelola **project, task, anggota tim, komentar, dan file** dalam satu sistem terintegrasi.  
-Project ini dikembangkan sebagai **tugas mata kuliah Pemrograman Berbasis Web**.
+![Laravel](https://img.shields.io/badge/laravel-%23FF2D20.svg?style=for-the-badge&logo=laravel&logoColor=white)
+![PHP](https://img.shields.io/badge/php-%23777BB4.svg?style=for-the-badge&logo=php&logoColor=white)
+![Bootstrap](https://img.shields.io/badge/bootstrap-%238511FA.svg?style=for-the-badge&logo=bootstrap&logoColor=white)
+![Railway](https://img.shields.io/badge/Railway-000000?style=for-the-badge&logo=railway&logoColor=white)
 
-Fokus
+---
 
-Setup Laravel
+## ✨ Fitur Utama
 
-Auth (login/register)
+* **👥 Collaborative Workspace:** Pemilik proyek dapat mengundang anggota tim melalui email. Anggota yang bergabung dapat melihat dan mengelola tugas yang sama.
+* **📊 Interactive Task Board:** Sistem Kanban untuk memantau tugas dengan status *To Do*, *In Progress*, dan *Done*.
+* **📈 Project Progress Tracking:** Dashboard visual yang menampilkan statistik tugas selesai, tugas tertunda, dan persentase progres proyek.
+* **👤 User Profile Management:** Fitur edit profil lengkap termasuk penggantian Avatar, informasi pekerjaan (Occupation), nomor telepon, dan lokasi.
+* **📁 Project File Sharing:** Berbagi dokumen dan file aset langsung di dalam setiap proyek.
+* **📅 Deadline Alerts:** Notifikasi visual untuk tugas yang mendekati atau telah melewati batas waktu (deadline).
 
-Integrasi semua fitur
+---
 
-Merge PR
+## 🛠️ Persyaratan Sistem
 
-FILE YANG BOLEH DISENTUH
-app/Models/User.php
-database/migrations/_users_
-resources/views/auth/
-resources/views/layouts/app.blade.php
-README.md
-CONTRIBUTING.md
+* PHP >= 8.1
+* Composer
+* MySQL 
+* Node.js & NPM (untuk aset frontend)
 
-❌ TIDAK menyentuh:
+---
 
-ProjectController
-TaskController
-CommentController
+## ⚙️ Cara Instalasi (Lokal)
 
-🌿 Branch:
+1.  **Clone Repository**
+    ```bash
+    git clone [https://github.com/username/collabotask.git](https://github.com/username/collabotask.git)
+    cd collabotask
+    ```
 
-feature/auth-setup
+2.  **Install Dependencies**
+    ```bash
+    composer install
+    npm install && npm run dev
+    ```
 
-👤 TUGAS 2 — PROJECT (CRUD)
+3.  **Konfigurasi Environment**
+    Salin file `.env.example` menjadi `.env` dan sesuaikan pengaturan database Anda:
+    ```bash
+    cp .env.example .env
+    php artisan key:generate
+    ```
 
-AMAN karena berdiri sendiri
+4.  **Database Migration**
+    Jalankan migrasi untuk membuat tabel-tabel yang dibutuhkan:
+    ```bash
+    php artisan migrate
+    ```
 
-FILE
-app/Models/Project.php
-app/Http/Controllers/ProjectController.php
-database/migrations/_projects_
-resources/views/projects/
+5.  **Symbolic Link Storage** (Penting agar Avatar muncul)
+    ```bash
+    php artisan storage:link
+    ```
 
-🌿 Branch:
+6.  **Jalankan Server**
+    ```bash
+    php artisan serve
+    ```
 
-feature/project
+---
 
-🚫 Tidak menyentuh task / comment
+## ☁️ Catatan Deployment (Railway)
 
-👤 TUGAS 3 — TASK (CRUD + DEADLINE)
-FILE
-app/Models/Task.php
-app/Http/Controllers/TaskController.php
-database/migrations/_tasks_
-resources/views/tasks/
+Project ini telah dioptimalkan untuk dideploy di **Railway**. 
 
-🌿 Branch:
+---
 
-feature/task
+## 📂 Struktur Database Utama
 
-🚫 Tidak menyentuh project & comment
+* `users`: Menyimpan data pengguna dan path avatar.
+* `projects`: Menyimpan data proyek utama.
+* `project_teams`: Tabel pivot untuk menghubungkan anggota tim dengan proyek.
+* `tasks`: Menyimpan daftar tugas yang terhubung dengan `project_id`.
 
-👤 TUGAS 4 — STATUS TUGAS
+---
 
-Hanya EXTEND task, bukan rewrite
+## 🤝 Kontribusi
 
-FILE (SANGAT TERBATAS)
-database/migrations/_add_status_
-resources/views/tasks/index.blade.php
+Kontribusi selalu terbuka! Jika Anda ingin meningkatkan fitur atau melaporkan bug, silakan buat *Issue* atau kirimkan *Pull Request*.
 
-⚠️ HANYA TAMBAH, bukan hapus logic task
+---
+## 👥 Anggota Kelompok
 
-🌿 Branch:
-
-feature/task-status
-
-👤 TUGAS 5 — KOMENTAR
-
-Berdiri sendiri
-
-FILE
-app/Models/Comment.php
-app/Http/Controllers/CommentController.php
-database/migrations/_comments_
-resources/views/tasks/show.blade.php
-
-🌿 Branch:
-
-feature/comment
-
-🚫 Tidak menyentuh TaskController utama
-
-👤 TUGAS 6 — UI & LAYOUT
-
-PALING AMAN karena frontend-only
-
-FILE
-resources/views/layouts/
-resources/views/components/
-resources/css/
-resources/js/
-
-🌿 Branch:
-
-feature/ui
-
-🚫 Tidak menyentuh logic backend
-
-🧠 KUNCI AGAR GIT KELIHATAN RAPI
-✅ Aturan File Emas
-File Siapa
-routes/web.php LEADER
-.env TIDAK ADA
-User.php LEADER
-Controller lain MASING-MASING
-🔁 ALUR KERJA SEMUA ANGGOTA (TERMASUK LEADER)
-git checkout develop
-git pull origin develop
-git checkout -b feature/nama-fitur
-
-Kerja ➜ commit ➜ push ➜ PR ➜ leader merge
-
-🧾 CONTOH COMMIT MESSAGE (BIAR RAPI)
-
-✅ BENAR:
-
-Add project CRUD
-Add task deadline field
-Add comment feature
-Update task status badge
-
-❌ SALAH:
-
-fix
-update
-coba-coba
+| NAMA | Peranan Tim |
+| Maulana Arif | Project Leader & model |
+| Rhista Gita | Lead View |
+| Dika Putra | View |
+| Hilma Aulia | Lead Controller |
+| Rizky Pebriyanto | Model |
+| Zillmie Pasca | Controller |
+---
