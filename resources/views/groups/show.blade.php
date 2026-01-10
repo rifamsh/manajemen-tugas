@@ -236,7 +236,7 @@
                 @endforeach
             </div>
             <div class="d-grid">
-                <button class="btn btn-light text-primary fw-bold btn-sm rounded-pill" data-bs-toggle="pill" data-bs-target="#discussion">Open Discussion</button>
+                <a href="{{ route('chat', ['project_id' => $project->id]) }}" class="btn btn-primary ext-primary fw-bold btn-sm rounded-pill">Open Discussion</a>
             </div>
         </div>
 
