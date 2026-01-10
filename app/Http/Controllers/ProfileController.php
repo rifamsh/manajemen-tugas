@@ -62,10 +62,9 @@ class ProfileController extends Controller
         $user = auth()->user();
 
         if ($request->hasFile('avatar')) {
-            // Simpan file ke folder storage/app/public/avatars
             $path = $request->file('avatar')->store('avatars', 'public');
 
-            // UPDATE DATABASE: Ini yang menjamin data tidak hilang saat relogin
+
             $user->update(['avatar' => $path]);
         }
 
