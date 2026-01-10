@@ -20,9 +20,21 @@ class ProjectController extends Controller
         return view('projects.index', compact('projects'));
     }
 
-    public function create()
+    public function create(Request $request)
     {
-        return view('groups.create');
+        // Ambil project di mana user adalah owner ATAU member
+        $projects = Project::where('user_id', auth()->id())
+            ->orWhereHas('members', function ($q) {
+                $q->where('user_id', auth()->id());
+            })->get();
+
+        $selectedProject = null;
+        if ($request->has('project_id')) {
+            $selectedProject = Project::whereIn('id', $projects->pluck('id'))
+                ->find($request->project_id);
+        }
+
+        return view('tasks.create', compact('projects', 'selectedProject'));
     }
 
     public function store(Request $request)

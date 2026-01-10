@@ -11,32 +11,39 @@ class TaskController extends Controller
 {
     public function index()
     {
-        // Tambahkan filter where user_id agar hanya data milik sendiri yang muncul
-        $tasks = Task::where('user_id', Auth::id())
+        // 1. Ambil semua ID project di mana user ini adalah Owner ATAU Member
+        $projectIds = Project::where('user_id', auth()->id())
+            ->orWhereHas('members', function ($q) {
+                $q->where('user_id', auth()->id());
+            })
+            ->pluck('id');
 
+        // 2. Ambil task yang project_id-nya ada di daftar tadi
+        $tasks = Task::whereIn('project_id', $projectIds)
             ->get()
             ->groupBy('status');
 
-        // Project juga harus difilter agar user tidak bisa memasukkan task ke project orang lain
-        $projects = Project::where('user_id', Auth::id())->get();
+        // 3. Project dropdown juga harus muncul untuk member
+        $projects = Project::whereIn('id', $projectIds)->get();
 
         return view('tasks.index', compact('tasks', 'projects'));
     }
-
     public function create(Request $request)
     {
-        // Hanya tampilkan project milik user yang login
-        $projects = Project::where('user_id', Auth::id())->get();
-        $selectedProject = null;
+        // Ambil project di mana user adalah owner ATAU member
+        $projects = Project::where('user_id', auth()->id())
+            ->orWhereHas('members', function ($q) {
+                $q->where('user_id', auth()->id());
+            })->get();
 
+        $selectedProject = null;
         if ($request->has('project_id')) {
-            // Tambahkan pengecekan agar tidak bisa mengintip project orang lain via ID di URL
-            $selectedProject = Project::where('user_id', Auth::id())->find($request->project_id);
+            $selectedProject = Project::whereIn('id', $projects->pluck('id'))
+                ->find($request->project_id);
         }
 
         return view('tasks.create', compact('projects', 'selectedProject'));
     }
-
     public function store(Request $request)
     {
         $data = $request->validate([
@@ -73,12 +80,16 @@ class TaskController extends Controller
         } else {
             // VALIDASI TAMBAHAN: Pastikan project_id yang dikirim user via form 
             // memang benar milik user tersebut (mencegah manipulasi ID lewat Inspect Element)
-            $ownedProject = Project::where('id', $data['project_id'])
-                ->where('user_id', Auth::id())
-                ->first();
+            $isMember = Project::where('id', $data['project_id'])
+                ->where(function ($query) {
+                    $query->where('user_id', auth()->id())
+                        ->orWhereHas('members', function ($q) {
+                            $q->where('user_id', auth()->id());
+                        });
+                })->exists();
 
-            if (!$ownedProject) {
-                return back()->withErrors(['project_id' => 'Project tidak valid atau bukan milik Anda.']);
+            if (!$isMember) {
+                return back()->withErrors(['project_id' => 'Anda bukan anggota project ini.']);
             }
         }
 
