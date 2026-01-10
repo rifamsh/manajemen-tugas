@@ -24,6 +24,10 @@
                             <label for="description" class="form-label fw-bold">Deskripsi Singkat</label>
                             <textarea class="form-control" name="description" id="description" rows="3" placeholder="Jelaskan tujuan atau proyek kelompok ini..."></textarea>
                         </div>
+                        <div class="mb-3">
+                            <label for="deadline" class="form-label fw-bold">Batas Waktu (Deadline)</label>
+                            <input type="date" name="deadline" id="deadline" class="form-control">
+                        </div>
 
                         <div class="mb-4">
                             <label for="category" class="form-label fw-bold">Category</label>
