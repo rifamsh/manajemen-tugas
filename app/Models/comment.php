@@ -27,4 +27,9 @@ class Comment extends Model
     {
         return $this->belongsTo(User::class);
     }
+    // Perbaikan Model Comment
+    public function project()
+    {
+        return $this->belongsTo(Project::class);
+    }
 }
