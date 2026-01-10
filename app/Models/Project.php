@@ -57,4 +57,9 @@ class Project extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+    // E. Project punya banyak Comment (Chat di dalamnya)
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
 }

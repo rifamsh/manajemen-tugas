@@ -60,6 +60,7 @@ Route::middleware(['auth'])->group(function () {
 
     // Chat
     Route::get('/chat', [ChatController::class, 'index'])->name('chat');
+    Route::post('/chat/send', [ChatController::class, 'store'])->name('comments.store');
 
     // Timeline
     Route::get('/timeline', [DashboardController::class, 'timeline'])->name('timeline');

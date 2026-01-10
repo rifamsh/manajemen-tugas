@@ -11,18 +11,27 @@ class TaskController extends Controller
 {
     public function index()
     {
-        $tasks = Task::orderBy('due_time')->get()->groupBy('status');
-        $projects = Project::all();
+        // Tambahkan filter where user_id agar hanya data milik sendiri yang muncul
+        $tasks = Task::where('user_id', Auth::id())
+
+            ->get()
+            ->groupBy('status');
+
+        // Project juga harus difilter agar user tidak bisa memasukkan task ke project orang lain
+        $projects = Project::where('user_id', Auth::id())->get();
+
         return view('tasks.index', compact('tasks', 'projects'));
     }
 
     public function create(Request $request)
     {
-        $projects = Project::all();
+        // Hanya tampilkan project milik user yang login
+        $projects = Project::where('user_id', Auth::id())->get();
         $selectedProject = null;
 
         if ($request->has('project_id')) {
-            $selectedProject = Project::find($request->project_id);
+            // Tambahkan pengecekan agar tidak bisa mengintip project orang lain via ID di URL
+            $selectedProject = Project::where('user_id', Auth::id())->find($request->project_id);
         }
 
         return view('tasks.create', compact('projects', 'selectedProject'));
@@ -40,29 +49,43 @@ class TaskController extends Controller
             'due_time' => 'nullable',
         ]);
 
-        $data['user_id'] = Auth::id() ?: 1;
+        // 1. Pastikan task yang dibuat terhubung dengan user yang sedang login
+        $data['user_id'] = Auth::id();
 
-        // If no project_id provided, attach to an existing project or create a minimal one
+        // 2. Logika pencarian/pembuatan Project yang aman
         if (empty($data['project_id'])) {
-            $project = Project::first();
-            if (! $project) {
+
+            $project = Project::where('user_id', Auth::id())->first();
+
+            if (!$project) {
+                // Jika user belum punya project sama sekali, buatkan satu yang khusus milik dia
                 $project = Project::create([
-                    'user_id' => $data['user_id'],
-                    'name' => 'Default Project',
+                    'user_id'     => Auth::id(),
+                    'name'        => 'Default Project',
                     'description' => 'Auto-created project for tasks',
-                    'category' => 'General',
-                    'deadline' => now()->addMonth()->toDateString(),
-                    'progress' => 0,
-                    'status' => 'active',
+                    'category'    => 'General',
+                    'deadline'    => now()->addMonth()->toDateString(),
+                    'progress'    => 0,
+                    'status'      => 'active',
                 ]);
             }
             $data['project_id'] = $project->id;
+        } else {
+            // VALIDASI TAMBAHAN: Pastikan project_id yang dikirim user via form 
+            // memang benar milik user tersebut (mencegah manipulasi ID lewat Inspect Element)
+            $ownedProject = Project::where('id', $data['project_id'])
+                ->where('user_id', Auth::id())
+                ->first();
+
+            if (!$ownedProject) {
+                return back()->withErrors(['project_id' => 'Project tidak valid atau bukan milik Anda.']);
+            }
         }
 
         Task::create($data);
 
-        // Redirect based on where the task was created from
-        if ($request->has('project_id') && $request->project_id) {
+        // 3. Redirect
+        if ($request->filled('project_id')) {
             return redirect()->route('groups.show', $request->project_id)->with('success', 'Task created successfully!');
         }
 
@@ -77,6 +100,11 @@ class TaskController extends Controller
 
     public function update(Request $request, Task $task)
     {
+        // 1. KEAMANAN: Pastikan task yang akan diupdate benar-benar milik user yang login
+        if ($task->user_id !== Auth::id()) {
+            abort(403, 'Anda tidak memiliki akses untuk mengubah task ini.');
+        }
+
         $data = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
@@ -87,12 +115,13 @@ class TaskController extends Controller
             'due_time' => 'nullable',
         ]);
 
-        // If no project_id provided, ensure task has a project
+        // 2. Logika Project yang aman (hanya cari project milik user ini)
         if (empty($data['project_id'])) {
-            $project = Project::first();
-            if (! $project) {
+            $project = Project::where('user_id', Auth::id())->first();
+
+            if (!$project) {
                 $project = Project::create([
-                    'user_id' => Auth::id() ?: 1,
+                    'user_id' => Auth::id(),
                     'name' => 'Default Project',
                     'description' => 'Auto-created project for tasks',
                     'category' => 'General',
@@ -102,21 +131,35 @@ class TaskController extends Controller
                 ]);
             }
             $data['project_id'] = $project->id;
+        } else {
+            // VALIDASI: Pastikan project_id yang dipilih memang milik user ini
+            $isOwned = Project::where('id', $data['project_id'])
+                ->where('user_id', Auth::id())
+                ->exists();
+
+            if (!$isOwned) {
+                return back()->withErrors(['project_id' => 'Project tidak valid.']);
+            }
         }
 
         $task->update($data);
+
         return redirect()->route('tasks.index')->with('success', 'Task updated successfully!');
     }
 
     public function destroy(Task $task)
     {
+        // Proteksi: Pastikan task yang mau dihapus adalah milik user yang sedang login
+        if ($task->user_id !== Auth::id()) {
+            abort(403, 'Unauthorized action.');
+        }
+
         $task->delete();
         return redirect()->route('tasks.index')->with('success', 'Task deleted');
     }
-
     public function calendar()
     {
-        $tasks = Task::where('user_id', auth()->id())
+        $tasks = Task::where('user_id', Auth::id())
             ->whereNotNull('deadline')
             ->orderBy('deadline')
             ->get();

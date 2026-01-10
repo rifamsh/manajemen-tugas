@@ -17,9 +17,9 @@
                 <div class="d-flex justify-content-center gap-2 mb-4">
                     {{-- Avatar upload form: includes hidden name/occupation to satisfy validation while allowing only avatar change --}}
                     <form method="POST" action="{{ route('profile.update') }}" enctype="multipart/form-data" class="d-inline">
-                        @csrf
-                        <input type="hidden" name="name" value="{{ $user->name }}">
-                        <input type="hidden" name="occupation" value="{{ $user->occupation }}">
+                    @csrf
+                    @method('PATCH') <input type="hidden" name="name" value="{{ $user->name }}">
+                    <input type="hidden" name="occupation" value="{{ $user->occupation }}">
                         <label class="btn btn-primary btn-sm rounded-pill px-4 shadow-sm mb-0">
                             <i class="fas fa-edit me-1"></i> Change Avatar
                             <input type="file" name="avatar" class="d-none" onchange="this.form.submit()">

@@ -18,7 +18,7 @@
     <div class="col-md-4">
         <div class="bg-light p-3 rounded-4 border-top border-4 {{ $status == 'todo' ? 'border-secondary' : ($status == 'in_progress' ? 'border-primary' : 'border-success') }}">
             <h6 class="fw-bold mb-3 d-flex justify-content-between">
-                {{ $label }} <span class="badge bg-white text-dark shadow-sm">3</span>
+                {{ $label }} <span class="badge bg-white text-dark shadow-sm">{{ $tasks->get($status, collect())->count() }}</span>
             </h6>
             @php $items = $tasks->get($status, collect()); @endphp
             @forelse($items as $task)
@@ -28,7 +28,7 @@
                     <div class="dropdown">
                         <a href="#" data-bs-toggle="dropdown"><i class="fas fa-ellipsis-h text-muted small"></i></a>
                         <ul class="dropdown-menu dropdown-menu-end">
-                            <li><a class="dropdown-item" href="{{ route('tasks.edit', $task) }}">Edit</a></li>
+                            <li><a class="dropdown-item" href="{{ auth()->user() ? route('tasks.edit', $task) : '#' }}">Edit</a></li>
                             <li>
                                 <form action="{{ route('tasks.destroy', $task) }}" method="POST" onsubmit="return confirm('Delete task?')">
                                     @csrf @method('DELETE')
