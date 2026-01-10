@@ -11,7 +11,7 @@ class ProjectController extends Controller
     public function index()
     {
         $projects = Project::where('user_id', auth()->id())
-            ->orWhereHas('members', function($q) {
+            ->orWhereHas('members', function ($q) {
                 $q->where('user_id', auth()->id());
             })
             ->with('members')
@@ -44,7 +44,8 @@ class ProjectController extends Controller
             'progress' => 0,
         ]);
 
-        return redirect()->route('dashboard')->with('success', 'Project created successfully!');
+        return redirect()->route('projects.show', $project->id)
+            ->with('success', 'Project created successfully!');
     }
 
     public function show($id)
