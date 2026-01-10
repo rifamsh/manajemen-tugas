@@ -25,6 +25,18 @@
             padding: 30px 20px;
             border-right: 1px solid #eef2f6;
             overflow-y: auto;
+            z-index: 1050;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+        .sidebar-left.show {
+            transform: translateX(0);
+        }
+
+        @media (min-width: 992px) {
+            .sidebar-left {
+                transform: translateX(0);
+            }
         }
 
         .nav-link {
@@ -56,9 +68,24 @@
 
         /* --- KONTEN TENGAH --- */
         .main-content {
-            margin-left: 250px; /* Lebar sidebar kiri */
-            margin-right: 320px; /* Lebar sidebar kanan */
-            padding: 30px 40px;
+            margin-left: 0;
+            margin-right: 0;
+            padding: 30px 20px;
+            min-height: 100vh;
+        }
+
+        @media (min-width: 992px) {
+            .main-content {
+                margin-left: 250px;
+                margin-right: 320px;
+                padding: 30px 40px;
+            }
+        }
+
+        @media (min-width: 1200px) {
+            .main-content {
+                margin-right: 320px;
+            }
         }
 
         /* --- SIDEBAR KANAN --- */
@@ -71,6 +98,18 @@
             padding: 30px 25px;
             border-left: 1px solid #eef2f6;
             overflow-y: auto;
+            z-index: 1040;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        }
+        .sidebar-right.show {
+            transform: translateX(0);
+        }
+
+        @media (min-width: 1200px) {
+            .sidebar-right {
+                transform: translateX(0);
+            }
         }
 
         /* --- CUSTOM CARDS & ELEMENTS --- */
@@ -148,11 +187,29 @@
     </style>
 </head>
 <body>
+    <!-- Mobile Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom d-lg-none fixed-top">
+        <div class="container-fluid">
+            <button class="btn btn-outline-secondary me-2" type="button" onclick="toggleSidebar('left')">
+                <i class="fas fa-bars"></i>
+            </button>
+            <span class="navbar-brand mb-0 h1">CollaboTask</span>
+            <button class="btn btn-outline-secondary" type="button" onclick="toggleSidebar('right')">
+                <i class="fas fa-user"></i>
+            </button>
+        </div>
+    </nav>
 
-    <nav class="sidebar-left d-none d-lg-block">
+    <!-- Overlay for mobile -->
+    <div id="sidebar-overlay" class="d-lg-none" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1030;" onclick="closeSidebars()"></div>
+
+    <nav class="sidebar-left d-lg-block">
         <div class="d-flex align-items-center mb-5 ps-2">
             <img src="{{ asset('img/logo.png') }}" alt="Logo" width="35" class="me-2">
             <span class="fw-bold fs-5 text-primary">CollaboTask</span>
+            <button class="btn btn-sm btn-outline-secondary ms-auto d-lg-none" onclick="closeSidebars()">
+                <i class="fas fa-times"></i>
+            </button>
         </div>
 
         <p class="section-title ps-2">MENU</p>
@@ -169,7 +226,7 @@
         </a>
     </li>
     <li class="nav-item">
-        <a href="{{ route('tasks') }}" 
+        <a href="{{ route('tasks.index') }}" 
            class="nav-link {{ Route::is('tasks*') ? 'active' : '' }}">
             <i class="fas fa-clipboard-list"></i> Task Board
         </a>
@@ -200,9 +257,9 @@
             @yield('content')
         </main>
 
-        <aside class="sidebar-right d-none d-xl-block">
+        <aside class="sidebar-right d-xl-block">
             <div class="d-flex align-items-center mb-5">
-                <a href="{{ route('profile') }}" class="d-flex align-items-center text-decoration-none text-dark">
+                <a href="{{ route('profile.edit') }}" class="d-flex align-items-center text-decoration-none text-dark">
                     <x-avatar :user="auth()->user()" :size="50" />
                     <div class="ms-3">
                         <div class="fw-bold">{{ auth()->user()->name }}</div>
@@ -211,40 +268,38 @@
                 </a>
                 <div class="ms-auto">
                     <button class="btn btn-light btn-sm rounded-circle"><i class="fas fa-bell text-muted"></i></button>
+                    <button class="btn btn-sm btn-outline-secondary ms-2 d-xl-none" onclick="closeSidebars()">
+                        <i class="fas fa-times"></i>
+                    </button>
                 </div>
             </div>
 
             <div class="mb-4">
                 <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h6 class="fw-bold mb-0">March 2026</h6>
+                    <h6 class="fw-bold mb-0">{{ \Carbon\Carbon::now()->format('F Y') }}</h6>
                     <a href="{{ route('tasks.create') }}" class="btn btn-sm btn-primary rounded-pill px-3 py-1 text-white"><i class="font-size: 0.7rem;"></i>+ New Task</a>
                 </div>
                 <div class="d-flex justify-content-between">
-                    <div class="calendar-day">
-                        <div class="day-name">Mon</div><div class="day-date">4</div>
+                    @php
+                        $today = \Carbon\Carbon::now();
+                        $startOfWeek = $today->copy()->startOfWeek(); // Monday
+                        for ($i = 0; $i < 5; $i++) {
+                            $date = $startOfWeek->copy()->addDays($i);
+                            $isToday = $date->isToday();
+                    @endphp
+                    <div class="calendar-day {{ $isToday ? 'active' : '' }}">
+                        <div class="day-name">{{ $date->format('D') }}</div>
+                        <div class="day-date">{{ $date->format('j') }}</div>
                     </div>
-                    <div class="calendar-day">
-                        <div class="day-name">Tue</div><div class="day-date">5</div>
-                    </div>
-                    <div class="calendar-day active">
-                        <div class="day-name">Wed</div><div class="day-date">6</div>
-                    </div>
-                    <div class="calendar-day">
-                        <div class="day-name">Thu</div><div class="day-date">7</div>
-                    </div>
-                    <div class="calendar-day">
-                        <div class="day-name">Fri</div><div class="day-date">8</div>
-                    </div>
+                    @php } @endphp
                 </div>
             </div>
 
             <div>
-                <h6 class="fw-bold mb-4">Today's Schedule</h6>
-
                 @php
-                    // Use `$todayTasks` supplied by AppServiceProvider; fallback to empty collection
-                    $todayTasks = isset($todayTasks) ? $todayTasks : collect();
+                    $hasTodayTasks = $todayTasks->where('deadline', \Carbon\Carbon::today())->count() > 0;
                 @endphp
+                <h6 class="fw-bold mb-4">{{ $hasTodayTasks ? "Today's Schedule" : "Upcoming Tasks" }}</h6>
 
                 @if($todayTasks->isEmpty())
                     <div class="text-muted small mb-3">No tasks scheduled for today.</div>
@@ -266,12 +321,25 @@
                     </div>
 
                 @else
+                    @if(!$hasTodayTasks)
+                        <div class="text-muted small mb-3">No tasks due today. Here are your upcoming tasks:</div>
+                    @endif
+
                     @foreach($todayTasks as $task)
                         <div class="timeline-item">
-                            <div class="time-label">{{ $task->due_time ? \Carbon\Carbon::parse($task->due_time)->format('H:i') : '—' }}</div>
-                            <div class="task-box {{ $task->priority == 'High' ? '' : '' }}">
+                            <div class="time-label">
+                                @if($task->due_time)
+                                    {{ \Carbon\Carbon::parse($task->due_time)->format('H:i') }}
+                                @else
+                                    {{ \Carbon\Carbon::parse($task->deadline)->format('M j') }}
+                                @endif
+                            </div>
+                            <div class="task-box {{ $task->priority == 'High' ? 'red' : ($task->priority == 'Medium' ? 'orange' : '') }}">
                                 <h6 class="fw-bold fs-6 mb-1">{{ $task->title }}</h6>
                                 <small class="text-muted">{{ \Illuminate\Support\Str::limit($task->description, 80) }}</small>
+                                @if($task->project)
+                                    <small class="text-primary d-block mt-1">{{ $task->project->name }}</small>
+                                @endif
                                 <i class="fas fa-ellipsis-h position-absolute top-0 end-0 m-3 text-muted"></i>
                             </div>
                         </div>
@@ -283,5 +351,24 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function toggleSidebar(side) {
+            const sidebar = side === 'left' ? document.querySelector('.sidebar-left') : document.querySelector('.sidebar-right');
+            const overlay = document.getElementById('sidebar-overlay');
+            
+            if (sidebar.classList.contains('show')) {
+                closeSidebars();
+            } else {
+                sidebar.classList.add('show');
+                overlay.style.display = 'block';
+            }
+        }
+
+        function closeSidebars() {
+            document.querySelector('.sidebar-left').classList.remove('show');
+            document.querySelector('.sidebar-right').classList.remove('show');
+            document.getElementById('sidebar-overlay').style.display = 'none';
+        }
+    </script>
 </body>
 </html>

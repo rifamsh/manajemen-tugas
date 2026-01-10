@@ -1,5 +1,6 @@
+@props(['user', 'size' => 50, 'name', 'avatar'])
+
 @php
-    // Accept either a User model in $user or a raw name in $name
     $name = $name ?? ($user->name ?? 'User');
     $avatar = $avatar ?? ($user->avatar ?? null);
     $size = $size ?? 50;
@@ -17,4 +18,5 @@
         $src = 'https://ui-avatars.com/api/?name=' . urlencode($name) . '&background=0D6EFD&color=fff&rounded=true&size=' . $size;
     }
 @endphp
+
 <img src="{{ $src }}" alt="{{ $name }}" class="rounded-circle" style="object-fit:cover; width: {{ $size }}px; height: {{ $size }}px; display:block; object-position:center;"> 

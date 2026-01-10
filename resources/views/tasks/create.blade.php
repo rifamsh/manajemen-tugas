@@ -2,19 +2,35 @@
 @section('content')
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h4 class="fw-bold">New Task</h4>
-    <a href="{{ route('tasks') }}" class="btn btn-outline-secondary">Back</a>
+    @if($selectedProject)
+        <a href="{{ route('groups.show', $selectedProject) }}" class="btn btn-outline-secondary">Back to {{ $selectedProject->name }}</a>
+    @else
+        <a href="{{ route('tasks.index') }}" class="btn btn-outline-secondary">Back</a>
+    @endif
 </div>
 
 <form method="POST" action="{{ route('tasks.store') }}">
     @csrf
+    @if($selectedProject)
+        <input type="hidden" name="project_id" value="{{ $selectedProject->id }}">
+    @endif
     <div class="card p-4">
         <div class="mb-3">
             <label class="form-label">Title</label>
             <input name="title" class="form-control" required>
         </div>
         <div class="mb-3">
-            <label class="form-label">Description</label>
-            <textarea name="description" class="form-control"></textarea>
+            <label class="form-label">Project</label>
+            @if($selectedProject)
+                <input type="text" class="form-control" value="{{ $selectedProject->name }}" readonly>
+            @else
+                <select name="project_id" class="form-select" required>
+                    <option value="">Select Project</option>
+                    @foreach($projects as $project)
+                        <option value="{{ $project->id }}">{{ $project->name }}</option>
+                    @endforeach
+                </select>
+            @endif
         </div>
         <div class="row g-2">
             <div class="col-md-4 mb-3">

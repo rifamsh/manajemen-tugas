@@ -41,9 +41,25 @@ class Project extends Model
         return $this->hasMany(Task::class);
     }
 
+    // D. Project punya banyak File (melalui Task)
+    public function files()
+    {
+        return $this->hasManyThrough(File::class, Task::class);
+    }
+
     // C. Project dibuat oleh satu Leader (User)
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
     public function leader()
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+    // E. Project punya banyak Comment (Chat di dalamnya)
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
     }
 }
