@@ -7,9 +7,9 @@
         <p class="text-muted small">Monitor your team performance and project health.</p>
     </div>
     <div class="d-flex gap-2">
-        <button class="btn btn-white border rounded-pill px-3 shadow-sm btn-sm">
+        <a href="{{ route('reports.export-pdf') }}" class="btn btn-white border rounded-pill px-3 shadow-sm btn-sm">
             <i class="fas fa-download me-2"></i>Export PDF
-        </button>
+        </a>
         <select class="form-select form-select-sm rounded-pill shadow-sm" style="width: 150px;">
             <option>Last 30 Days</option>
             <option>Last 6 Months</option>

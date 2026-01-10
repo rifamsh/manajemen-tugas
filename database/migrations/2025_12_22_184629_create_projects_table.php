@@ -22,7 +22,7 @@ return new class extends Migration {
             $table->string('category');
 
             // 2. Deadline (Untuk teks "Deadline: 20 March")
-            $table->date('deadline');
+            $table->date('deadline')->nullable();
 
             // 3. Progress Bar (Untuk grafik batang persen: 30%, 45%)
             $table->integer('progress')->default(0);

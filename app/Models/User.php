@@ -22,6 +22,8 @@ class User extends Authenticatable
         'password',
         'occupation', // Tambahan: Untuk tulisan "Mahasiswa"
         'avatar',     // Tambahan: Untuk foto profil
+        'address',    // Tambahan: Untuk alamat
+        'phone',      // Tambahan: Untuk nomor telepon
     ];
 
     /**

@@ -1,5 +1,13 @@
 @extends('layouts.app')
 @section('content')
+
+@if(session('success'))
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    <i class="fas fa-check-circle me-2"></i>{{ session('success') }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+</div>
+@endif
+
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h4 class="fw-bold">Task Board</h4>
     <a href="{{ route('tasks.create') }}" class="btn btn-primary rounded-pill"><i class="fas fa-plus me-2"></i>New Task</a>

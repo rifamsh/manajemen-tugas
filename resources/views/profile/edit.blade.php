@@ -58,14 +58,14 @@
                 <div class="bg-light rounded-circle p-2 me-3 text-primary"><i class="fas fa-phone fa-fw"></i></div>
                 <div>
                     <small class="text-muted d-block">Phone</small>
-                    <span class="fw-bold small">+62 812 3456 7890</span>
+                    <span class="fw-bold small">{{ $user->phone ?? '+62 812 3456 7890' }}</span>
                 </div>
             </div>
             <div class="d-flex align-items-center">
                 <div class="bg-light rounded-circle p-2 me-3 text-primary"><i class="fas fa-map-marker-alt fa-fw"></i></div>
                 <div>
                     <small class="text-muted d-block">Location</small>
-                    <span class="fw-bold small">Jakarta, Indonesia</span>
+                    <span class="fw-bold small">{{ $user->address ?? 'Not specified' }}</span>
                 </div>
             </div>
         </div>
@@ -75,51 +75,44 @@
         <div class="card border-0 shadow-sm rounded-4 p-4 mb-4">
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h6 class="fw-bold mb-0">Active Groups</h6>
-                <a href="#" class="text-primary small text-decoration-none fw-bold">View All</a>
+                <a href="{{ route('projects.index') }}" class="text-primary small text-decoration-none fw-bold">View All</a>
             </div>
             <div class="row g-3">
+                @forelse($projects as $project)
                 <div class="col-md-6">
-                    <div class="p-3 border rounded-4 hover-lift bg-light bg-opacity-50">
-                        <div class="d-flex align-items-center gap-3 mb-3">
-                            <div class="bg-primary rounded-3 p-2 text-white">
-                                <i class="fas fa-laptop-code fa-lg"></i>
-                            </div>
-                            <div class="overflow-hidden">
-                                <h6 class="fw-bold mb-0 text-truncate">Website Redesign</h6>
-                                <small class="text-muted">Lead Developer</small>
-                            </div>
-                        </div>
-                        <div class="d-flex align-items-center gap-2">
-                            <div class="flex-grow-1">
-                                <div class="progress rounded-pill" style="height: 5px;">
-                                    <div class="progress-bar bg-primary" style="width: 75%"></div>
+                    <a href="{{ route('groups.show', $project) }}" class="text-decoration-none">
+                        <div class="p-3 border rounded-4 hover-lift bg-light bg-opacity-50 h-100">
+                            <div class="d-flex align-items-center gap-3 mb-3">
+                                <div class="bg-primary rounded-3 p-2 text-white">
+                                    <i class="fas fa-{{ $project->category == 'Development' ? 'laptop-code' : ($project->category == 'Design' ? 'palette' : ($project->category == 'Marketing' ? 'bullhorn' : 'folder')) }} fa-lg"></i>
+                                </div>
+                                <div class="overflow-hidden flex-grow-1">
+                                    <h6 class="fw-bold mb-0 text-truncate">{{ $project->name }}</h6>
+                                    <small class="text-muted">{{ $project->user_id == $user->id ? 'Project Leader' : 'Team Member' }}</small>
                                 </div>
                             </div>
-                            <span class="small fw-bold text-muted">75%</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="p-3 border rounded-4 hover-lift bg-light bg-opacity-50">
-                        <div class="d-flex align-items-center gap-3 mb-3">
-                            <div class="bg-warning rounded-3 p-2 text-white">
-                                <i class="fas fa-mobile-alt fa-lg"></i>
-                            </div>
-                            <div class="overflow-hidden">
-                                <h6 class="fw-bold mb-0 text-truncate">Mobile App Development</h6>
-                                <small class="text-muted">UI Designer</small>
-                            </div>
-                        </div>
-                        <div class="d-flex align-items-center gap-2">
-                            <div class="flex-grow-1">
-                                <div class="progress rounded-pill" style="height: 5px;">
-                                    <div class="progress-bar bg-warning" style="width: 40%"></div>
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="flex-grow-1">
+                                    <div class="progress rounded-pill" style="height: 5px;">
+                                        <div class="progress-bar {{ $project->progress >= 75 ? 'bg-success' : ($project->progress >= 45 ? 'bg-warning' : 'bg-primary') }}" style="width: {{ $project->progress ?? 0 }}%"></div>
+                                    </div>
                                 </div>
+                                <span class="small fw-bold text-muted">{{ $project->progress ?? 0 }}%</span>
                             </div>
-                            <span class="small fw-bold text-muted">40%</span>
+                            <div class="mt-2">
+                                <small class="text-muted">Deadline: {{ $project->deadline ? $project->deadline->format('d M Y') : 'No deadline' }}</small>
+                            </div>
                         </div>
+                    </a>
+                </div>
+                @empty
+                <div class="col-12">
+                    <div class="text-center py-4">
+                        <i class="fas fa-folder-open fa-3x text-muted mb-3"></i>
+                        <div class="text-muted">You have no active groups yet. <a href="{{ route('projects.create') }}" class="text-primary">Create one</a> to get started.</div>
                     </div>
                 </div>
+                @endforelse
             </div>
         </div>
 
@@ -147,6 +140,61 @@
                     </div>
                 </div>
             </div>
+        </div>
+
+        <div class="card border-0 shadow-sm rounded-4 p-4 mt-4">
+            <h6 class="fw-bold mb-4">Edit Profile Information</h6>
+            <form method="POST" action="{{ route('profile.update') }}" enctype="multipart/form-data">
+                @csrf
+                @method('PATCH')
+
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label for="name" class="form-label fw-bold small">Full Name</label>
+                        <input type="text" class="form-control form-control-sm @error('name') is-invalid @enderror"
+                               id="name" name="name" value="{{ old('name', $user->name) }}" required>
+                        @error('name')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="occupation" class="form-label fw-bold small">Occupation</label>
+                        <input type="text" class="form-control form-control-sm @error('occupation') is-invalid @enderror"
+                               id="occupation" name="occupation" value="{{ old('occupation', $user->occupation) }}"
+                               placeholder="e.g., Software Developer, Student">
+                        @error('occupation')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="phone" class="form-label fw-bold small">Phone Number</label>
+                        <input type="text" class="form-control form-control-sm @error('phone') is-invalid @enderror"
+                               id="phone" name="phone" value="{{ old('phone', $user->phone) }}"
+                               placeholder="e.g., +62 812 3456 7890">
+                        @error('phone')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="address" class="form-label fw-bold small">City/Location</label>
+                        <input type="text" class="form-control form-control-sm @error('address') is-invalid @enderror"
+                               id="address" name="address" value="{{ old('address', $user->address) }}"
+                               placeholder="e.g., Jakarta, Indonesia">
+                        @error('address')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-end mt-4">
+                    <button type="submit" class="btn btn-primary btn-sm px-4">
+                        <i class="fas fa-save me-2"></i>Save Changes
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

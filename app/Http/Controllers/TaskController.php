@@ -16,10 +16,16 @@ class TaskController extends Controller
         return view('tasks.index', compact('tasks', 'projects'));
     }
 
-    public function create()
+    public function create(Request $request)
     {
         $projects = Project::all();
-        return view('tasks.create', compact('projects'));
+        $selectedProject = null;
+
+        if ($request->has('project_id')) {
+            $selectedProject = Project::find($request->project_id);
+        }
+
+        return view('tasks.create', compact('projects', 'selectedProject'));
     }
 
     public function store(Request $request)
@@ -54,7 +60,13 @@ class TaskController extends Controller
         }
 
         Task::create($data);
-        return redirect()->route('tasks')->with('success', 'Task created');
+
+        // Redirect based on where the task was created from
+        if ($request->has('project_id') && $request->project_id) {
+            return redirect()->route('groups.show', $request->project_id)->with('success', 'Task created successfully!');
+        }
+
+        return redirect()->route('tasks.index')->with('success', 'Task created successfully!');
     }
 
     public function edit(Task $task)
@@ -93,12 +105,22 @@ class TaskController extends Controller
         }
 
         $task->update($data);
-        return redirect()->route('tasks')->with('success', 'Task updated');
+        return redirect()->route('tasks.index')->with('success', 'Task updated successfully!');
     }
 
     public function destroy(Task $task)
     {
         $task->delete();
-        return redirect()->route('tasks')->with('success', 'Task deleted');
+        return redirect()->route('tasks.index')->with('success', 'Task deleted');
+    }
+
+    public function calendar()
+    {
+        $tasks = Task::where('user_id', auth()->id())
+            ->whereNotNull('deadline')
+            ->orderBy('deadline')
+            ->get();
+
+        return view('tasks.calendar', compact('tasks'));
     }
 }

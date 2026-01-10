@@ -11,23 +11,30 @@
                     <h5 class="mb-0 fw-bold text-primary"><i class="fas fa-plus-circle me-2"></i>Buat Kelompok Baru</h5>
                 </div>
                 <div class="card-body p-4">
-                    <form action="" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('projects.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         
                         <div class="mb-4">
                             <label for="name" class="form-label fw-bold">Nama Kelompok</label>
-                            <input type="text" class="form-control form-control-lg" id="name" placeholder="Contoh: Tim Web Development A" required>
+                            <input type="text" name="name" class="form-control form-control-lg" id="name" placeholder="Contoh: Tim Web Development A" required>
                             <div class="form-text">Nama ini akan tampil di dashboard semua anggota.</div>
                         </div>
 
                         <div class="mb-4">
                             <label for="description" class="form-label fw-bold">Deskripsi Singkat</label>
-                            <textarea class="form-control" id="description" rows="3" placeholder="Jelaskan tujuan atau proyek kelompok ini..."></textarea>
+                            <textarea class="form-control" name="description" id="description" rows="3" placeholder="Jelaskan tujuan atau proyek kelompok ini..."></textarea>
                         </div>
 
                         <div class="mb-4">
-                            <label for="logo" class="form-label fw-bold">Logo Kelompok (Opsional)</label>
-                            <input class="form-control" type="file" id="logo">
+                            <label for="category" class="form-label fw-bold">Category</label>
+                            <select class="form-control" name="category" id="category" required>
+                                <option value="">Choose category...</option>
+                                <option value="Design">Design</option>
+                                <option value="Development">Development</option>
+                                <option value="Marketing">Marketing</option>
+                                <option value="Research">Research</option>
+                                <option value="General">General</option>
+                            </select>
                         </div>
 
                         <div class="mb-4">

@@ -2,6 +2,12 @@
 
 @section('content')
 
+@if(session('success'))
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    <i class="fas fa-check-circle me-2"></i>{{ session('success') }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+</div>
+@endif
 
     <div class="row mb-4 align-items-center">
         <div class="col-md-8">
@@ -21,9 +27,9 @@
                 <h2 class="fw-bold mb-1">Welcome, {{ auth()->user()->name }}</h2>
                 <p class="text-white-50 mb-4">Here's what's happex`ning with your projects today.</p>
                 
-                <button class="btn btn-light text-primary fw-bold px-4 py-2 rounded-pill shadow-sm">
+                <a href="{{ route('groups.create') }}" class="btn btn-light text-primary fw-bold px-4 py-2 rounded-pill shadow-sm text-decoration-none">
                     <i class="fas fa-plus me-2"></i> Create New Group
-                </button>
+                </a>
             </div>
             <div class="d-none d-md-block">
                 <i class="fas fa-rocket text-white opacity-25" style="font-size: 5rem;"></i>
@@ -33,12 +39,13 @@
 
     <div class="d-flex justify-content-between align-items-end mb-3">
         <h5 class="fw-bold mb-0">Active Groups</h5>
-        <a href="#" class="text-decoration-none small fw-bold text-primary">See All</a>
+        <a href="{{ route('projects.index') }}" class="text-decoration-none small fw-bold text-primary">See All</a>
     </div>
 
     <div class="row g-4 mb-5">
         @forelse($projects as $project)
             <div class="col-md-4">
+                <a href="{{ route('groups.show', $project) }}" class="text-decoration-none">
                 <div class="card-custom h-100 position-relative">
                     <div class="d-flex justify-content-between mb-3">
                         <span class="badge bg-light text-secondary">{{ $project->category ?? 'General' }}</span>
@@ -63,6 +70,7 @@
                         @endif
                     </div>
                 </div>
+                </a>
             </div>
         @empty
             <div class="col-12">
