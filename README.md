@@ -24,7 +24,7 @@
 
 * PHP >= 8.1
 * Composer
-* MySQL 
+* Laragon / Xampp / herd 
 * Node.js & NPM (untuk aset frontend)
 
 ---
@@ -79,7 +79,9 @@ Project ini telah dioptimalkan untuk dideploy di **Railway**.
 * `users`: Menyimpan data pengguna dan path avatar.
 * `projects`: Menyimpan data proyek utama.
 * `project_teams`: Tabel pivot untuk menghubungkan anggota tim dengan proyek.
-* `tasks`: Menyimpan daftar tugas yang terhubung dengan `project_id`.
+* `tasks`: Menyimpan daftar tugas yang terhubung dengan 
+* `file` : Menyimpan file-file yang berisikan tugas.
+* `comment` : Menyimpan history diskusi kelompok
 
 ---
 
@@ -91,6 +93,7 @@ Kontribusi selalu terbuka! Jika Anda ingin meningkatkan fitur atau melaporkan bu
 ## 👥 Anggota Kelompok
 
 | NAMA | Peranan Tim |
+|------|-----------|
 | Maulana Arif | Project Leader & model |
 | Rhista Gita | Lead View |
 | Dika Putra | View |
