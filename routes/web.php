@@ -45,7 +45,6 @@ Route::middleware(['auth'])->group(function () {
 
     // Tasks
     Route::resource('tasks', TaskController::class);
-    Route::get('/tasks/{id}', [TaskController::class, 'show'])->name('tasks.show');
     Route::get('/calendar', [TaskController::class, 'calendar'])->name('calendar');
 
     // Projects
