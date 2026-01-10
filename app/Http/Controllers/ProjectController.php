@@ -40,14 +40,13 @@ class ProjectController extends Controller
             'category' => $request->category,
             'deadline' => $request->deadline,
             'user_id' => auth()->id(),
-            'status' => 'active',
+            'status' => 'active', // LANGSUNG ISI NILAI: 'active'
             'progress' => 0,
         ]);
 
         return redirect()->route('projects.show', $project->id)
             ->with('success', 'Project created successfully!');
     }
-
     public function show($id)
     {
         $project = Project::with(['user', 'members', 'tasks.assignee', 'files.user'])->findOrFail($id);
