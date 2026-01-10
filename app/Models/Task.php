@@ -15,13 +15,13 @@ class Task extends Model
         'user_id',
         'title',
         'description',
-        'priority',   // High, Medium, Low
-        'status',     // todo, in_progress, done
-        'deadline',   // Tanggal: 2023-01-01
-        'due_time',   // Jam: 09:00:00
+        'priority',
+        'status',
+        'deadline',
+        'due_time',
     ];
 
-    // Agar deadline otomatis jadi objek tanggal (bisa diformat)
+
     protected $casts = [
         'deadline' => 'date',
     ];
@@ -49,7 +49,7 @@ class Task extends Model
     // --- HELPER (Untuk Tampilan Dashboard) ---
 
     // 1. Warna Badge Prioritas
-    // Cara panggil di view: $task->priority_color
+
     public function getPriorityColorAttribute()
     {
         return match ($this->priority) {
@@ -61,7 +61,7 @@ class Task extends Model
     }
 
     // 2. Hitung Sisa Hari (Countdown)
-    // Cara panggil di view: $task->days_left
+
     public function getDaysLeftAttribute()
     {
         if (!$this->deadline) return '-';

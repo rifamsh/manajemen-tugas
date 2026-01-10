@@ -20,10 +20,10 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'occupation', // Tambahan: Untuk tulisan "Mahasiswa"
-        'avatar',     // Tambahan: Untuk foto profil
-        'address',    // Tambahan: Untuk alamat
-        'phone',      // Tambahan: Untuk nomor telepon
+        'occupation',
+        'avatar',
+        'address',
+        'phone',
     ];
 
     /**
@@ -58,7 +58,7 @@ class User extends Authenticatable
     }
 
     // 2. User tergabung di banyak Project (Widget: Active Groups)
-    // Relasi Many-to-Many lewat tabel pivot 'project_teams'
+
     public function projects()
     {
         return $this->belongsToMany(Project::class, 'project_teams', 'user_id', 'project_id')

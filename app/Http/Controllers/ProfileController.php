@@ -55,4 +55,20 @@ class ProfileController extends Controller
 
         return redirect()->route('profile.edit')->with('success', 'Profile updated');
     }
+
+    public function updateAvatar(Request $request)
+    {
+        $request->validate(['avatar' => 'required|image|mimes:jpeg,png,jpg|max:2048']);
+        $user = auth()->user();
+
+        if ($request->hasFile('avatar')) {
+            // Simpan file ke folder storage/app/public/avatars
+            $path = $request->file('avatar')->store('avatars', 'public');
+
+            // UPDATE DATABASE: Ini yang menjamin data tidak hilang saat relogin
+            $user->update(['avatar' => $path]);
+        }
+
+        return back()->with('success', 'Avatar updated!');
+    }
 }
