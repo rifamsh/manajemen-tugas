@@ -3,11 +3,12 @@
 @section('title', 'Login - Task Manager')
 
 @section('content')
-<div class="container-fluid">
-    <div class="row h-100 g-0">
+<div class="container-fluid p-0">
+    <div class="row min-vh-100 g-0">
         
-        <div class="col-lg-4 col-md-5 login-left">
-            <div style="width: 100%; max-width: 380px;"> <div class="d-flex align-items-center mb-4">
+        <div class="col-lg-4 col-md-5 login-left d-flex align-items-center justify-content-center p-4">
+            <div style="width: 100%; max-width: 380px;"> 
+                <div class="d-flex align-items-center mb-4">
                     <img src="{{ asset('img/logo.png') }}" alt="Logo" width="200" class="me-2">
                 </div>
 
@@ -44,7 +45,7 @@
                             <input class="form-check-input" type="checkbox" name="remember" id="remember">
                             <label class="form-check-label small text-muted" for="remember">Remember me</label>
                         </div>
-                        <a href="#" class="small text-primary text-decoration-none">Forgot Password?</a>
+                        <a href="{{ route('password.request') }}" class="small text-primary text-decoration-none">Forgot Password?</a>
                     </div>
 
                     <div class="d-grid mb-4">
@@ -59,14 +60,12 @@
             </div>
         </div>
 
-        <div class="col-lg-8 col-md-7 d-none d-md-block login-right">
-            
+        <div class="col-lg-8 col-md-7 d-none d-md-block login-right position-relative">
             <div class="wave-connector">
-                <svg viewBox="0 0 500 1500" preserveAspectRatio="none">
+                <svg viewBox="0 0 500 1500" preserveAspectRatio="none" style="height: 100%; width: 100%;">
                     <path d="M0,0 L0,1500 L50,1500 C400,1000 50,500 350,0 Z"></path>
                 </svg>
             </div>
-
         </div>
 
     </div>
