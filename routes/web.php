@@ -33,6 +33,36 @@ Route::get('/register', function () {
 Route::post('/register', [AuthController::class, 'register'])
     ->name('register.process');
 
+
+Route::get('/forgot-password', function () {
+    return view('auth.forgot-password');
+})->name('password.request');
+
+Route::post('/forgot-password', [AuthController::class, 'sendResetLink'])
+    ->name('password.email');
+
+Route::get('/reset-password/{token}', function ($token) {
+    return view('auth.reset-password', ['token' => $token]);
+})->name('password.reset');
+
+Route::post('/reset-password', [AuthController::class, 'resetPassword'])
+    ->name('password.update');
+
+
+Route::get('/confirm-password', function () {
+    return view('auth.confirm-password');
+})->name('password.confirm');
+
+Route::post('/confirm-password', [AuthController::class, 'confirmPassword']);
+
+
+Route::get('/verify-email', function () {
+    return view('auth.verify-email');
+})->name('verification.notice');
+
+Route::post('/email/verification-notification', [AuthController::class, 'resendVerification'])
+    ->name('verification.send');
+
 // Logout
 Route::post('/logout', [AuthController::class, 'logout'])
     ->name('logout');
